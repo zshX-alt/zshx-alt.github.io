@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Portfolio Firmansyah</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
@@ -27,6 +28,8 @@ font-family:Poppins,sans-serif;
 body{
 background:var(--bg);
 color:var(--text);
+display:flex;
+justify-content:center;
 overflow-x:hidden;
 }
 
@@ -41,57 +44,29 @@ height:100%;
 z-index:-1;
 }
 
-/* CONTAINER */
+/* MOBILE CONTAINER */
 
-.container{
-max-width:1000px;
-margin:auto;
-padding:0 20px;
-}
-
-/* NAV */
-
-nav{
-position:fixed;
+.app{
 width:100%;
-top:0;
-background:rgba(15,23,42,0.8);
-backdrop-filter:blur(8px);
-}
-
-.nav-inner{
-max-width:1000px;
-margin:auto;
-display:flex;
-justify-content:space-between;
-padding:18px 20px;
-}
-
-.logo{
-color:var(--accent);
-font-weight:600;
+max-width:420px;
+padding:20px;
 }
 
 /* HERO */
 
-header{
-min-height:100vh;
-display:flex;
-align-items:center;
-text-align:center;
-}
-
 .hero{
-width:100%;
+text-align:center;
+margin-top:60px;
 }
 
 .hero h1{
-font-size:clamp(2rem,5vw,3rem);
-margin-bottom:10px;
+font-size:1.8rem;
+margin-bottom:8px;
 }
 
 .hero p{
 color:var(--dim);
+font-size:0.9rem;
 }
 
 .location{
@@ -100,84 +75,84 @@ display:inline-block;
 background:#334155;
 padding:6px 14px;
 border-radius:20px;
-font-size:0.85rem;
+font-size:0.8rem;
 }
 
-/* PROJECT */
+/* SECTION */
 
 section{
-padding:70px 0;
+margin-top:45px;
 }
 
 h2{
 text-align:center;
 color:var(--accent);
-margin-bottom:35px;
+margin-bottom:18px;
+font-size:1.2rem;
 }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:18px;
-}
+/* PROJECT CARD */
 
 .card{
 background:var(--card);
 border-radius:12px;
 overflow:hidden;
+margin-bottom:15px;
 border:1px solid #334155;
-transition:0.3s;
-}
-
-.card:hover{
-transform:translateY(-5px);
 }
 
 .card img{
 width:100%;
-height:150px;
+height:140px;
 object-fit:cover;
 }
 
 .card-content{
-padding:16px;
+padding:14px;
+}
+
+.card-content h3{
+font-size:1rem;
 }
 
 .card-content p{
 color:var(--dim);
-font-size:0.9rem;
-margin-top:6px;
+font-size:0.85rem;
+margin-top:4px;
 }
 
 /* CONTACT */
 
 .contact{
-text-align:center;
 background:var(--card);
-padding:30px;
-border-radius:16px;
+padding:20px;
+border-radius:14px;
+text-align:center;
 }
 
 .btn{
-display:inline-block;
+display:block;
 background:#25d366;
 color:white;
-padding:12px 24px;
+padding:12px;
 border-radius:30px;
-margin-top:12px;
+margin-top:10px;
 text-decoration:none;
+font-weight:600;
 }
 
-.contact-info{
-margin-top:12px;
+.info{
+margin-top:10px;
+font-size:0.85rem;
 color:var(--dim);
-font-size:0.9rem;
 }
+
+/* FOOTER */
 
 footer{
 text-align:center;
-padding:30px;
-font-size:0.8rem;
+margin-top:35px;
+font-size:0.75rem;
 color:var(--dim);
 }
 
@@ -188,18 +163,13 @@ color:var(--dim);
 
 <canvas id="particles"></canvas>
 
-<nav>
-<div class="nav-inner">
-<div class="logo">PORTFOLIO</div>
-</div>
-</nav>
+<div class="app">
 
-<header>
-<div class="container hero">
+<div class="hero">
 
 <h1>Firmansyah Cahya Maulud</h1>
 
-<p>Web Developer fokus pada desain modern dan fungsional.</p>
+<p>Web Developer desain modern & fungsional</p>
 
 <div class="location">
 📍 
@@ -209,17 +179,13 @@ Banjarwangi, Garut
 </div>
 
 </div>
-</header>
 
 <section>
-<div class="container">
 
 <h2>Proyek</h2>
 
-<div class="grid">
-
 <div class="card">
-<img src="https://picsum.photos/500/300?1">
+<img src="https://picsum.photos/400/300?1">
 <div class="card-content">
 <h3>E-Learning</h3>
 <p>Platform pembelajaran online.</p>
@@ -227,28 +193,24 @@ Banjarwangi, Garut
 </div>
 
 <div class="card">
-<img src="https://picsum.photos/500/300?2">
+<img src="https://picsum.photos/400/300?2">
 <div class="card-content">
 <h3>Aplikasi Kasir</h3>
-<p>Sistem kasir dan manajemen stok.</p>
+<p>Sistem kasir dan stok barang.</p>
 </div>
 </div>
 
 <div class="card">
-<img src="https://picsum.photos/500/300?3">
+<img src="https://picsum.photos/400/300?3">
 <div class="card-content">
 <h3>Company Profile</h3>
 <p>Website perusahaan modern.</p>
 </div>
 </div>
 
-</div>
-
-</div>
 </section>
 
 <section>
-<div class="container">
 
 <div class="contact">
 
@@ -256,19 +218,24 @@ Banjarwangi, Garut
 
 <a href="https://wa.me/6283155628969" class="btn">WhatsApp</a>
 
-<div class="contact-info">
+<div class="info">
 <p>📱 083155628969</p>
-<p>✉️ <a href="mailto:firmansyahhcahya@gmail.com" style="color:#38bdf8;">firmansyahhcahya@gmail.com</a></p>
+<p>✉️ 
+<a href="mailto:firmansyahhcahya@gmail.com" style="color:#38bdf8;">
+firmansyahhcahya@gmail.com
+</a>
+</p>
 </div>
 
 </div>
 
-</div>
 </section>
 
 <footer>
-© 2026 Firmansyah Cahya Maulud
+© 2026 Firmansyah
 </footer>
+
+</div>
 
 <script>
 
@@ -280,7 +247,7 @@ canvas.height=window.innerHeight
 
 let particles=[]
 
-for(let i=0;i<60;i++){
+for(let i=0;i<35;i++){
 particles.push({
 x:Math.random()*canvas.width,
 y:Math.random()*canvas.height,
