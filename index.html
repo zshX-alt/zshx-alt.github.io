@@ -1,138 +1,314 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portofolio | Firmansyah Cahya Maulud</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            /* Warna Deep Dark dengan aksen Cyan */
-            --bg-color: #0a0a0a;
-            --accent: #00d2ff;
-            --glass: rgba(255, 255, 255, 0.05);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+<title>Portofolio | Firmansyah Cahya Maulud</title>
 
-        /* --- ANIMASI BACKGROUND BERGERAK --- */
-        body {
-            background: linear-gradient(-45deg, #0a0a0a, #1a1a2e, #16213e, #0f3460);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
-            color: white;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow-x: hidden;
-        }
+<meta name="description" content="Portfolio Web Developer Firmansyah Cahya Maulud dari Garut. Membuat website modern, responsif, dan elegan.">
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-        /* --- CONTAINER UTAMA (EFEK KACA/GLASSMORPHISM) --- */
-        .glass-card {
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-        }
+<style>
 
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, #fff, var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+:root{
+--bg-dark:#0f172a;
+--bg-card:#1e293b;
+--accent:#38bdf8;
+--text-main:#f8fafc;
+--text-dim:#94a3b8;
+--whatsapp:#25d366;
+}
 
-        p {
-            color: #ccc;
-            margin-bottom: 20px;
-            font-weight: 300;
-        }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+scroll-behavior:smooth;
+}
 
-        .info {
-            font-size: 0.8rem;
-            color: #888;
-            margin-bottom: 30px;
-        }
+body{
+background:var(--bg-dark);
+color:var(--text-main);
+}
 
-        /* --- TOMBOL WHATSAPP BERCAHAYA --- */
-        .btn-wa {
-            display: inline-block;
-            background: #25d366;
-            color: white;
-            padding: 12px 25px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.3s;
-            box-shadow: 0 0 15px rgba(37, 211, 102, 0.3);
-        }
+/* NAV */
 
-        .btn-wa:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px rgba(37, 211, 102, 0.6);
-        }
+nav{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 8%;
+background:rgba(15,23,42,0.9);
+position:fixed;
+width:100%;
+top:0;
+z-index:1000;
+border-bottom:1px solid #334155;
+backdrop-filter: blur(10px);
+}
 
-        /* Dekorasi Lingkungan Bergerak Kecil */
-        .blob {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            background: var(--accent);
-            filter: blur(80px);
-            border-radius: 50%;
-            z-index: -1;
-            opacity: 0.2;
-            animation: move 10s infinite alternate;
-        }
+.logo{
+font-weight:700;
+font-size:1.5rem;
+color:var(--accent);
+}
 
-        @keyframes move {
-            from { transform: translate(-50%, -50%); }
-            to { transform: translate(50%, 50%); }
-        }
-    </style>
+nav ul{
+display:flex;
+list-style:none;
+}
+
+nav ul li a{
+color:var(--text-main);
+text-decoration:none;
+margin-left:30px;
+font-size:0.9rem;
+transition:0.3s;
+}
+
+nav ul li a:hover{
+color:var(--accent);
+}
+
+/* HERO */
+
+header{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:0 20px;
+background: radial-gradient(circle at center,#1e293b 0%,#0f172a 100%);
+animation: fadeIn 1.5s ease;
+}
+
+header h1{
+font-size:3.5rem;
+margin-bottom:10px;
+}
+
+header p{
+font-size:1.2rem;
+color:var(--text-dim);
+max-width:600px;
+}
+
+.location{
+margin-top:20px;
+padding:8px 16px;
+background:#334155;
+border-radius:20px;
+font-size:0.85rem;
+}
+
+/* SECTION */
+
+section{
+padding:100px 8%;
+}
+
+h2{
+text-align:center;
+font-size:2rem;
+margin-bottom:50px;
+color:var(--accent);
+}
+
+/* PROJECT */
+
+.project-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:25px;
+}
+
+.card{
+background:var(--bg-card);
+border-radius:15px;
+overflow:hidden;
+border:1px solid #334155;
+transition:0.4s;
+}
+
+.card:hover{
+transform:translateY(-10px);
+border-color:var(--accent);
+box-shadow:0 15px 35px rgba(0,0,0,0.6);
+}
+
+.card img{
+width:100%;
+height:180px;
+object-fit:cover;
+}
+
+.card-content{
+padding:25px;
+}
+
+.card-content p{
+color:var(--text-dim);
+margin-top:10px;
+}
+
+/* CONTACT */
+
+.contact-box{
+background:var(--bg-card);
+max-width:600px;
+margin:auto;
+padding:40px;
+border-radius:20px;
+text-align:center;
+}
+
+.btn-wa{
+display:inline-block;
+background:var(--whatsapp);
+color:white;
+padding:15px 35px;
+text-decoration:none;
+border-radius:50px;
+font-weight:600;
+margin-top:20px;
+transition:0.3s;
+}
+
+.btn-wa:hover{
+transform:scale(1.05);
+box-shadow:0 0 25px rgba(37,211,102,0.5);
+}
+
+footer{
+text-align:center;
+padding:40px;
+border-top:1px solid #334155;
+color:var(--text-dim);
+font-size:0.8rem;
+}
+
+/* ANIMATION */
+
+@keyframes fadeIn{
+from{opacity:0; transform:translateY(20px);}
+to{opacity:1; transform:translateY(0);}
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+header h1{
+font-size:2.5rem;
+}
+
+nav ul{
+display:none;
+}
+
+}
+
+</style>
 </head>
+
 <body>
 
-    <div class="blob"></div>
+<nav>
+<div class="logo">PORTFOLIO.</div>
+<ul>
+<li><a href="#about">Tentang</a></li>
+<li><a href="#projects">Proyek</a></li>
+<li><a href="#contact">Kontak</a></li>
+</ul>
+</nav>
 
-    <div class="glass-card">
-        <h1>Firmansyah Cahya Maulud</h1>
-        <p>Web Developer</p>
-        
-        <div class="info">
-            📍 Kec. Banjarwangi, Kab. Garut, Jawa Barat<br>
-            📱 083155628959
-        </div>
+<header id="about">
 
-        <a href="https://wa.me/6283155628959" class="btn-wa">
-            Chat WhatsApp
-        </a>
-    </div>
+<h1>Firmansyah Cahya Maulud</h1>
 
-    <p style="margin-top: 20px; font-size: 0.7rem; color: #555;">
-        &copy; 2026 Firmansyah. Built with HTML/CSS.
-    </p>
+<p>Web Developer Kreatif yang fokus pada fungsionalitas dan estetika modern.</p>
+
+<div class="location">
+📍 Banjarwangi, Garut, Jawa Barat
+</div>
+
+</header>
+
+<section id="projects">
+
+<h2>Proyek Terbaru</h2>
+
+<div class="project-grid">
+
+<div class="card">
+
+<img src="https://picsum.photos/500/300?1">
+
+<div class="card-content">
+<h3>Sistem E-Learning</h3>
+<p>Platform pembelajaran online berbasis web yang responsif.</p>
+</div>
+
+</div>
+
+<div class="card">
+
+<img src="https://picsum.photos/500/300?2">
+
+<div class="card-content">
+<h3>Aplikasi Kasir</h3>
+<p>Sistem kasir dengan manajemen stok dan laporan otomatis.</p>
+</div>
+
+</div>
+
+<div class="card">
+
+<img src="https://picsum.photos/500/300?3">
+
+<div class="card-content">
+<h3>Company Profile</h3>
+<p>Website instansi modern dengan desain elegan dan SEO friendly.</p>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section id="contact">
+
+<div class="contact-box">
+
+<h2>Mari Berkolaborasi</h2>
+
+<p>Tertarik memulai proyek baru?</p>
+
+<a href="https://wa.me/6283155628969" target="_blank" class="btn-wa">
+
+Hubungi via WhatsApp
+
+</a>
+
+<p style="margin-top:20px;font-size:0.9rem;color:var(--text-dim);">
+0831-5562-8959
+</p>
+
+</div>
+
+</section>
+
+<footer>
+
+<p>© 2026 Firmansyah Cahya Maulud</p>
+
+</footer>
 
 </body>
 </html>
