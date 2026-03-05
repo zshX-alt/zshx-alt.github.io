@@ -1,16 +1,12 @@
 from flask import Flask, jsonify
+import os
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return jsonify({
-        "name": "Firmansyah",
-        "status": "Python API aktif"
-    })
+    return jsonify({"status":"API aktif"})
 
-@app.route("/hello")
-def hello():
-    return jsonify({
-        "message": "Hello dari server Python"
-    })
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port)
