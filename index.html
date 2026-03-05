@@ -1,11 +1,83 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Firmansyah</title>
+<meta charset="UTF-8">
+<title>AI Chat</title>
+
+<style>
+body{
+background:#0f172a;
+color:white;
+font-family:monospace;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.chat{
+width:350px;
+background:#020617;
+padding:20px;
+border-radius:10px;
+}
+
+#messages{
+height:300px;
+overflow:auto;
+margin-bottom:10px;
+}
+
+input{
+width:100%;
+padding:10px;
+background:#111827;
+border:none;
+color:white;
+}
+</style>
 </head>
 
 <body>
-<h1>Website Aktif</h1>
-<p>GitHub Pages berhasil.</p>
+
+<div class="chat">
+<div id="messages"></div>
+
+<input id="input" placeholder="tanya sesuatu..." />
+</div>
+
+<script>
+
+const API="https://zshx-altgithubio-production.up.railway.app/chat"
+
+const input=document.getElementById("input")
+const messages=document.getElementById("messages")
+
+input.addEventListener("keydown", async e=>{
+if(e.key==="Enter"){
+
+let text=input.value
+input.value=""
+
+messages.innerHTML+=`<div>👤 ${text}</div>`
+
+let res=await fetch(API,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({message:text})
+})
+
+let data=await res.json()
+
+messages.innerHTML+=`<div>🤖 ${data.reply}</div>`
+
+messages.scrollTop=messages.scrollHeight
+}
+})
+
+</script>
+
 </body>
 </html>
