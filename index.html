@@ -1,83 +1,237 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-<meta charset="UTF-8">
-<title>AI Chat</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firman | Digital Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d0e10;
+            --surface: #16181c;
+            --accent: #38bdf8;
+            --text-p: #ffffff;
+            --text-s: #94a3b8;
+            --border: rgba(255, 255, 255, 0.05);
+        }
 
-<style>
-body{
-background:#0f172a;
-color:white;
-font-family:monospace;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-}
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+            scroll-behavior: smooth; 
+        }
 
-.chat{
-width:350px;
-background:#020617;
-padding:20px;
-border-radius:10px;
-}
+        body {
+            background-color: var(--bg);
+            color: var(--text-p);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-#messages{
-height:300px;
-overflow:auto;
-margin-bottom:10px;
-}
+        /* Ambient Light */
+        .ambient-light {
+            position: fixed; top: -5%; right: -5%;
+            width: 350px; height: 350px;
+            background: radial-gradient(circle, rgba(56, 189, 248, 0.06) 0%, transparent 70%);
+            z-index: -1;
+        }
 
-input{
-width:100%;
-padding:10px;
-background:#111827;
-border:none;
-color:white;
-}
-</style>
+        /* Navigation */
+        nav {
+            padding: 1.2rem 6%;
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(13, 14, 16, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .status-dot {
+            height: 8px; width: 8px; background: var(--accent);
+            border-radius: 50%; display: inline-block;
+            margin-right: 5px; animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+        /* Hero Section */
+        .hero { padding: 6rem 6% 2rem; }
+        .hero span { font-size: 0.75rem; font-weight: 700; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; }
+        .hero h1 { 
+            font-size: clamp(2.2rem, 9vw, 5.5rem); 
+            font-weight: 800; line-height: 1.2; 
+            margin: 0.5rem 0 1.5rem; letter-spacing: -2px; 
+            text-transform: uppercase; 
+        }
+        .hero p { color: var(--text-s); font-size: 1.15rem; max-width: 550px; }
+
+        /* Marquee */
+        .marquee { background: var(--surface); padding: 1rem 0; overflow: hidden; display: flex; white-space: nowrap; margin-bottom: 2rem; border-y: 1px solid var(--border); }
+        .marquee-content { display: flex; animation: marquee 25s linear infinite; }
+        .marquee-content h2 { font-size: 1.2rem; font-weight: 800; color: rgba(255,255,255,0.05); margin-right: 3rem; text-transform: uppercase; }
+        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        /* Image Gallery */
+        .scroll-container { padding: 0 0 2rem; overflow-x: auto; display: flex; gap: 1rem; padding-left: 6%; padding-right: 6%; scrollbar-width: none; }
+        .scroll-container::-webkit-scrollbar { display: none; }
+        .img-card { min-width: 280px; height: 380px; background: var(--surface); border-radius: 24px; overflow: hidden; border: 1px solid var(--border); position: relative; }
+        .img-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.5s; }
+        .img-card:hover img { opacity: 1; transform: scale(1.05); }
+
+        /* Quotes Section */
+        .quote-section {
+            padding: 4rem 6%;
+            text-align: left;
+            background: linear-gradient(to bottom, transparent, rgba(56, 189, 248, 0.03), transparent);
+        }
+        .quote-box {
+            max-width: 800px;
+            margin: 0 auto;
+            border-left: 2px solid var(--accent);
+            padding-left: 1.5rem;
+        }
+        .quote-box p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            color: var(--text-p);
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        /* Bento Grid */
+        .container { padding: 1rem 6% 5rem; display: grid; grid-template-columns: 1fr; gap: 1rem; }
+        .bento { background: var(--surface); border: 1px solid var(--border); border-radius: 28px; padding: 2rem; position: relative; overflow: hidden; }
+
+        /* Skill & Timeline Styles */
+        .progress-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.05); border-radius: 10px; margin: 8px 0 15px; }
+        .progress-fill { height: 100%; background: var(--accent); border-radius: 10px; box-shadow: 0 0 10px var(--accent); }
+        .timeline-item { padding-left: 1.5rem; border-left: 1px solid var(--border); position: relative; margin-bottom: 2rem; }
+        .timeline-item::before { content: ''; position: absolute; left: -5px; top: 8px; width: 9px; height: 9px; background: var(--accent); border-radius: 50%; }
+
+        .tag { padding: 6px 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 50px; font-size: 0.8rem; color: var(--text-s); margin: 3px; display: inline-block; }
+        .btn { display: flex; align-items: center; justify-content: center; background: var(--accent); color: #000; padding: 1.3rem; border-radius: 24px; text-decoration: none; font-weight: 800; margin-top: 1rem; }
+
+        footer { padding: 4rem 6%; text-align: center; color: var(--text-s); font-size: 0.7rem; opacity: 0.3; }
+
+        @media (min-width: 768px) {
+            .container { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+            .hero, .scroll-container, .container, .quote-section { padding-left: 12%; padding-right: 12%; }
+            nav { padding: 1.2rem 12%; }
+            .quote-box p { font-size: 1.5rem; }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="chat">
-<div id="messages"></div>
+    <div class="ambient-light"></div>
 
-<input id="input" placeholder="tanya sesuatu..." />
-</div>
+    <nav>
+        <div class="logo">FIRMANSYAH.</div>
+        <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-s);">
+            <span class="status-dot"></span> <span id="clock">00:00:00</span>
+        </div>
+    </nav>
 
-<script>
+    <section class="hero">
+        <span>Digital Experience</span>
+        <h1>FIRMANSYAH.</h1>
+        <p>Production Specialist & Tech Enthusiast. Berfokus pada presisi operasional dan arsitektur teknologi modern.</p>
+    </section>
 
-const API="https://zshx-altgithubio-production.up.railway.app/chat"
+    <div class="marquee">
+        <div class="marquee-content">
+            <h2>PRODUCTION specialist</h2><h2>JAPANESE N4</h2><h2>WEB DEVELOPER</h2><h2>CYBERSECURITY</h2>
+            <h2>PRODUCTION specialist</h2><h2>JAPANESE N4</h2><h2>WEB DEVELOPER</h2><h2>CYBERSECURITY</h2>
+        </div>
+    </div>
 
-const input=document.getElementById("input")
-const messages=document.getElementById("messages")
+    <div class="scroll-container">
+        <div class="img-card">
+            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=500&q=80">
+            <div style="position:absolute; bottom:20px; left:20px; font-size:0.7rem; background:rgba(0,0,0,0.6); padding:4px 12px; border-radius:50px;">Security System</div>
+        </div>
+        <div class="img-card">
+            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=500&q=80">
+            <div style="position:absolute; bottom:20px; left:20px; font-size:0.7rem; background:rgba(0,0,0,0.6); padding:4px 12px; border-radius:50px;">Digital Architecture</div>
+        </div>
+        <div class="img-card">
+            <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=500&q=80">
+            <div style="position:absolute; bottom:20px; left:20px; font-size:0.7rem; background:rgba(0,0,0,0.6); padding:4px 12px; border-radius:50px;">Japanese Study</div>
+        </div>
+    </div>
 
-input.addEventListener("keydown", async e=>{
-if(e.key==="Enter"){
+    <section class="quote-section">
+        <div class="quote-box">
+            <p>"Langkah pertama sering terasa paling berat karena dipenuhi ketidakpastian, namun tanpa keberanian untuk memulainya, visi sebesar apa pun hanya akan tetap menjadi mimpi—sebab keberanian sejati bukanlah ketiadaan rasa takut, melainkan tetap melangkah meski hati masih ragu."</p>
+        </div>
+    </section>
 
-let text=input.value
-input.value=""
+    <main class="container">
+        <div class="bento">
+            <h3>Tech & Skillset</h3>
+            <div style="margin-top: 1rem;">
+                <span class="tag">Production Opt.</span>
+                <span class="tag">Stock Flow</span>
+                <span class="tag">HTML5/CSS3</span>
+                <span class="tag">JS ES6</span>
+                <span class="tag">Cybersecurity</span>
+                <span class="tag">Pen-Testing</span>
+            </div>
+        </div>
 
-messages.innerHTML+=`<div>👤 ${text}</div>`
+        <div class="bento">
+            <h3>Communication</h3>
+            <p style="font-size: 0.8rem; color: var(--text-s); margin-top: 10px;">Japanese Proficiency (N4 Level)</p>
+            <div class="progress-bar"><div class="progress-fill" style="width: 65%;"></div></div>
+            <p style="font-size: 0.8rem; color: var(--text-s);">Native Indonesian</p>
+            <div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
+        </div>
 
-let res=await fetch(API,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({message:text})
-})
+        <div class="bento" style="grid-column: 1 / -1;">
+            <h3 style="margin-bottom: 2rem;">Professional Experience</h3>
+            <div class="timeline-item">
+                <h4>Production & Operations</h4>
+                <p style="font-size: 0.8rem; color: var(--accent);">Online Shop | 2022 - Sekarang</p>
+                <p style="color: var(--text-s); font-size: 0.9rem; margin-top: 5px;">Mengoptimalkan alur kerja operasional dan efisiensi manajemen inventaris.</p>
+            </div>
+            <div class="timeline-item">
+                <h4>SMK Graduate</h4>
+                <p style="font-size: 0.8rem; color: var(--text-s);">Pendidikan Terakhir</p>
+                <p style="color: var(--text-s); font-size: 0.9rem; margin-top: 5px;">Membangun fondasi disiplin kerja dan kompetensi teknis dasar.</p>
+            </div>
+        </div>
 
-let data=await res.json()
+        <div class="bento" style="text-align: center; background: linear-gradient(135deg, #16181c 0%, #0d0e10 100%);">
+            <h1 style="color: var(--accent); font-size: 1.8rem; font-style: italic;">"継続は力なり"</h1>
+            <p style="color: var(--text-s); font-size: 0.9rem; margin-top: 10px;">Consistency is the key to power.</p>
+        </div>
 
-messages.innerHTML+=`<div>🤖 ${data.reply}</div>`
+        <div class="bento">
+            <h3>Direct Contact</h3>
+            <div style="margin-top: 1rem;">
+                <a href="mailto:firmansyahhcahya@gmail.com" style="display:block; text-decoration:none; color:inherit; margin-bottom:10px; font-weight: 600;">→ Email</a>
+                <a href="https://wa.me/6283155628969" style="display:block; text-decoration:none; color:inherit; margin-bottom:10px; font-weight: 600;">→ WhatsApp</a>
+            </div>
+        </div>
 
-messages.scrollTop=messages.scrollHeight
-}
-})
+        <div style="grid-column: 1 / -1;">
+            <a href="https://wa.me/6283155628969" class="btn">HUBUNGI SAYA</a>
+        </div>
+    </main>
 
-</script>
+    <footer>© 2026 FIRMANSYAH — ALL RIGHTS RESERVED</footer>
 
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const time = now.getHours().toString().padStart(2, '0') + ":" + 
+                         now.getMinutes().toString().padStart(2, '0') + ":" + 
+                         now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('clock').innerText = time;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
 </body>
 </html>
