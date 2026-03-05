@@ -3,235 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Firman | Digital Portfolio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #0d0e10;
-            --surface: #16181c;
-            --accent: #38bdf8;
-            --text-p: #ffffff;
-            --text-s: #94a3b8;
-            --border: rgba(255, 255, 255, 0.05);
-        }
-
-        * { 
-            margin: 0; padding: 0; box-sizing: border-box; 
-            -webkit-tap-highlight-color: transparent; 
-            scroll-behavior: smooth; 
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text-p);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-
-        /* Ambient Light */
-        .ambient-light {
-            position: fixed; top: -5%; right: -5%;
-            width: 350px; height: 350px;
-            background: radial-gradient(circle, rgba(56, 189, 248, 0.06) 0%, transparent 70%);
-            z-index: -1;
-        }
-
-        /* Navigation */
-        nav {
-            padding: 1.2rem 6%;
-            display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; z-index: 100;
-            background: rgba(13, 14, 16, 0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .status-dot {
-            height: 8px; width: 8px; background: var(--accent);
-            border-radius: 50%; display: inline-block;
-            margin-right: 5px; animation: blink 1.5s infinite;
-        }
-
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-
-        /* Hero Section */
-        .hero { padding: 6rem 6% 2rem; }
-        .hero span { font-size: 0.75rem; font-weight: 700; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; }
-        .hero h1 { 
-            font-size: clamp(2.2rem, 9vw, 5.5rem); 
-            font-weight: 800; line-height: 1.2; 
-            margin: 0.5rem 0 1.5rem; letter-spacing: -2px; 
-            text-transform: uppercase; 
-        }
-        .hero p { color: var(--text-s); font-size: 1.15rem; max-width: 550px; }
-
-        /* Marquee */
-        .marquee { background: var(--surface); padding: 1rem 0; overflow: hidden; display: flex; white-space: nowrap; margin-bottom: 2rem; border-y: 1px solid var(--border); }
-        .marquee-content { display: flex; animation: marquee 25s linear infinite; }
-        .marquee-content h2 { font-size: 1.2rem; font-weight: 800; color: rgba(255,255,255,0.05); margin-right: 3rem; text-transform: uppercase; }
-        @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-        /* Image Gallery */
-        .scroll-container { padding: 0 0 2rem; overflow-x: auto; display: flex; gap: 1rem; padding-left: 6%; padding-right: 6%; scrollbar-width: none; }
-        .scroll-container::-webkit-scrollbar { display: none; }
-        .img-card { min-width: 280px; height: 380px; background: var(--surface); border-radius: 24px; overflow: hidden; border: 1px solid var(--border); position: relative; }
-        .img-card img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: 0.5s; }
-        .img-card:hover img { opacity: 1; transform: scale(1.05); }
-
-        /* Quotes Section */
-        .quote-section {
-            padding: 4rem 6%;
-            text-align: left;
-            background: linear-gradient(to bottom, transparent, rgba(56, 189, 248, 0.03), transparent);
-        }
-        .quote-box {
-            max-width: 800px;
-            margin: 0 auto;
-            border-left: 2px solid var(--accent);
-            padding-left: 1.5rem;
-        }
-        .quote-box p {
-            font-size: 1.2rem;
-            font-weight: 300;
-            color: var(--text-p);
-            line-height: 1.8;
-            font-style: italic;
-        }
-
-        /* Bento Grid */
-        .container { padding: 1rem 6% 5rem; display: grid; grid-template-columns: 1fr; gap: 1rem; }
-        .bento { background: var(--surface); border: 1px solid var(--border); border-radius: 28px; padding: 2rem; position: relative; overflow: hidden; }
-
-        /* Skill & Timeline Styles */
-        .progress-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.05); border-radius: 10px; margin: 8px 0 15px; }
-        .progress-fill { height: 100%; background: var(--accent); border-radius: 10px; box-shadow: 0 0 10px var(--accent); }
-        .timeline-item { padding-left: 1.5rem; border-left: 1px solid var(--border); position: relative; margin-bottom: 2rem; }
-        .timeline-item::before { content: ''; position: absolute; left: -5px; top: 8px; width: 9px; height: 9px; background: var(--accent); border-radius: 50%; }
-
-        .tag { padding: 6px 14px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 50px; font-size: 0.8rem; color: var(--text-s); margin: 3px; display: inline-block; }
-        .btn { display: flex; align-items: center; justify-content: center; background: var(--accent); color: #000; padding: 1.3rem; border-radius: 24px; text-decoration: none; font-weight: 800; margin-top: 1rem; }
-
-        footer { padding: 4rem 6%; text-align: center; color: var(--text-s); font-size: 0.7rem; opacity: 0.3; }
-
-        @media (min-width: 768px) {
-            .container { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
-            .hero, .scroll-container, .container, .quote-section { padding-left: 12%; padding-right: 12%; }
-            nav { padding: 1.2rem 12%; }
-            .quote-box p { font-size: 1.5rem; }
-        }
-    </style>
-</head>
+    <title>ZSHX Digital - Agensi Pemasaran Digital Modern</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"> </head>
 <body>
 
-    <div class="ambient-light"></div>
-
-    <nav>
-        <div class="logo">FIRMANSYAH.</div>
-        <div style="font-size: 0.75rem; font-weight: 600; color: var(--text-s);">
-            <span class="status-dot"></span> <span id="clock">00:00:00</span>
+    <header>
+        <div class="container">
+            <div class="logo">ZSHX Digital</div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Beranda</a></li>
+                    <li><a href="#services">Layanan</a></li>
+                    <li><a href="#portfolio">Portofolio</a></li>
+                    <li><a href="#testimonials">Testimoni</a></li>
+                    <li><a href="#contact" class="btn-secondary">Kontak Kami</a></li>
+                </ul>
+            </nav>
         </div>
-    </nav>
+    </header>
 
-    <section class="hero">
-        <span>Digital Experience</span>
-        <h1>FIRMANSYAH.</h1>
-        <p>Production Specialist & Tech Enthusiast. Berfokus pada presisi operasional dan arsitektur teknologi modern.</p>
-    </section>
-
-    <div class="marquee">
-        <div class="marquee-content">
-            <h2>PRODUCTION specialist</h2><h2>JAPANESE N4</h2><h2>WEB DEVELOPER</h2><h2>CYBERSECURITY</h2>
-            <h2>PRODUCTION specialist</h2><h2>JAPANESE N4</h2><h2>WEB DEVELOPER</h2><h2>CYBERSECURITY</h2>
-        </div>
-    </div>
-
-    <div class="scroll-container">
-        <div class="img-card">
-            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=500&q=80">
-            <div style="position:absolute; bottom:20px; left:20px; font-size:0.7rem; background:rgba(0,0,0,0.6); padding:4px 12px; border-radius:50px;">Security System</div>
-        </div>
-        <div class="img-card">
-            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=500&q=80">
-            <div style="position:absolute; bottom:20px; left:20px; font-size:0.7rem; background:rgba(0,0,0,0.6); padding:4px 12px; border-radius:50px;">Digital Architecture</div>
-        </div>
-        <div class="img-card">
-            <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=500&q=80">
-            <div style="position:absolute; bottom:20px; left:20px; font-size:0.7rem; background:rgba(0,0,0,0.6); padding:4px 12px; border-radius:50px;">Japanese Study</div>
-        </div>
-    </div>
-
-    <section class="quote-section">
-        <div class="quote-box">
-            <p>"Langkah pertama sering terasa paling berat karena dipenuhi ketidakpastian, namun tanpa keberanian untuk memulainya, visi sebesar apa pun hanya akan tetap menjadi mimpi—sebab keberanian sejati bukanlah ketiadaan rasa takut, melainkan tetap melangkah meski hati masih ragu."</p>
+    <section id="home" class="hero">
+        <div class="container">
+            <h1>Tumbuhkan Bisnis Anda dengan Pemasaran Digital Modern.</h1>
+            <p>ZSHX Digital adalah agensi Anda untuk strategi inovatif dan hasil terukur. Mari kita wujudkan visi Anda.</p>
+            <a href="#contact" class="btn-primary">Mulai Proyek Anda Sekarang!</a>
         </div>
     </section>
 
-    <main class="container">
-        <div class="bento">
-            <h3>Tech & Skillset</h3>
-            <div style="margin-top: 1rem;">
-                <span class="tag">Production Opt.</span>
-                <span class="tag">Stock Flow</span>
-                <span class="tag">HTML5/CSS3</span>
-                <span class="tag">JS ES6</span>
-                <span class="tag">Cybersecurity</span>
-                <span class="tag">Pen-Testing</span>
+    <section id="services" class="section-dark">
+        <div class="container">
+            <h2>Layanan Kami</h2>
+            <p class="subtitle">Solusi Pemasaran Digital yang Dirancang untuk Pertumbuhan.</p>
+            <div class="grid-3">
+                <div class="service-card">
+                    <h3>Strategi SEO</h3>
+                    <p>Optimasi mesin pencari untuk visibilitas maksimal dan trafik organik.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Pemasaran Konten</h3>
+                    <p>Buat cerita merek yang menarik untuk menarik dan mempertahankan audiens.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Iklan Berbayar (PPC)</h3>
+                    <p>Kampanye iklan bertarget untuk ROI cepat dan efektif.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Manajemen Media Sosial</h3>
+                    <p>Bangun komunitas dan interaksi di platform sosial populer.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Pengembangan Web</h3>
+                    <p>Desain dan kembangkan website yang indah dan berfungsi penuh.</p>
+                </div>
+                <div class="service-card">
+                    <h3>Analitik & Pelaporan</h3>
+                    <p>Pantau kinerja dan optimalkan strategi berdasarkan data.</p>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="bento">
-            <h3>Communication</h3>
-            <p style="font-size: 0.8rem; color: var(--text-s); margin-top: 10px;">Japanese Proficiency (N4 Level)</p>
-            <div class="progress-bar"><div class="progress-fill" style="width: 65%;"></div></div>
-            <p style="font-size: 0.8rem; color: var(--text-s);">Native Indonesian</p>
-            <div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
-        </div>
-
-        <div class="bento" style="grid-column: 1 / -1;">
-            <h3 style="margin-bottom: 2rem;">Professional Experience</h3>
-            <div class="timeline-item">
-                <h4>Production & Operations</h4>
-                <p style="font-size: 0.8rem; color: var(--accent);">Online Shop | 2022 - Sekarang</p>
-                <p style="color: var(--text-s); font-size: 0.9rem; margin-top: 5px;">Mengoptimalkan alur kerja operasional dan efisiensi manajemen inventaris.</p>
+    <section id="portfolio" class="section-light">
+        <div class="container">
+            <h2>Portofolio Kami</h2>
+            <p class="subtitle">Lihat Beberapa Karya Kami yang Berhasil.</p>
+            <div class="grid-2">
+                <div class="portfolio-item">
+                    <img src="https://via.placeholder.com/400x250/222222/FFFFFF?text=Project+A" alt="Project A">
+                    <h3>Campaign E-commerce</h3>
+                    <p>Meningkatkan penjualan 30% dalam 2 bulan.</p>
+                </div>
+                <div class="portfolio-item">
+                    <img src="https://via.placeholder.com/400x250/222222/FFFFFF?text=Project+B" alt="Project B">
+                    <h3>Strategi Brand Awareness</h3>
+                    <p>Meningkatkan jangkauan media sosial hingga 200%.</p>
+                </div>
             </div>
-            <div class="timeline-item">
-                <h4>SMK Graduate</h4>
-                <p style="font-size: 0.8rem; color: var(--text-s);">Pendidikan Terakhir</p>
-                <p style="color: var(--text-s); font-size: 0.9rem; margin-top: 5px;">Membangun fondasi disiplin kerja dan kompetensi teknis dasar.</p>
+            <a href="#" class="btn-primary" style="margin-top: 30px;">Lihat Lebih Banyak Proyek</a>
+        </div>
+    </section>
+
+    <section id="testimonials" class="section-dark">
+        <div class="container">
+            <h2>Kata Mereka Tentang Kami</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial-card">
+                    <p>"ZSHX Digital benar-benar mengubah cara kami beriklan. Hasilnya luar biasa!"</p>
+                    <span>- CEO Startup X</span>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Tim yang responsif dan sangat profesional. Sangat merekomendasikan!"</p>
+                    <span>- Pemilik Toko Y</span>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="bento" style="text-align: center; background: linear-gradient(135deg, #16181c 0%, #0d0e10 100%);">
-            <h1 style="color: var(--accent); font-size: 1.8rem; font-style: italic;">"継続は力なり"</h1>
-            <p style="color: var(--text-s); font-size: 0.9rem; margin-top: 10px;">Consistency is the key to power.</p>
+    <section id="contact" class="section-light">
+        <div class="container">
+            <h2>Mari Bicara Tentang Proyek Anda</h2>
+            <p class="subtitle">Kami siap membantu bisnis Anda mencapai potensi penuhnya.</p>
+            <form class="contact-form">
+                <input type="text" placeholder="Nama Lengkap" required>
+                <input type="email" placeholder="Email Anda" required>
+                <input type="text" placeholder="Nama Perusahaan (Opsional)">
+                <textarea placeholder="Pesan Anda" rows="5" required></textarea>
+                <button type="submit" class="btn-primary">Kirim Pesan</button>
+            </form>
         </div>
+    </section>
 
-        <div class="bento">
-            <h3>Direct Contact</h3>
-            <div style="margin-top: 1rem;">
-                <a href="mailto:firmansyahhcahya@gmail.com" style="display:block; text-decoration:none; color:inherit; margin-bottom:10px; font-weight: 600;">→ Email</a>
-                <a href="https://wa.me/6283155628969" style="display:block; text-decoration:none; color:inherit; margin-bottom:10px; font-weight: 600;">→ WhatsApp</a>
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 ZSHX Digital. Semua Hak Cipta Dilindungi.</p>
+            <div class="social-links">
+                <a href="#">Facebook</a> | <a href="#">Instagram</a> | <a href="#">LinkedIn</a>
             </div>
         </div>
-
-        <div style="grid-column: 1 / -1;">
-            <a href="https://wa.me/6283155628969" class="btn">HUBUNGI SAYA</a>
-        </div>
-    </main>
-
-    <footer>© 2026 FIRMANSYAH — ALL RIGHTS RESERVED</footer>
+    </footer>
 
     <script>
-        function updateClock() {
-            const now = new Date();
-            const time = now.getHours().toString().padStart(2, '0') + ":" + 
-                         now.getMinutes().toString().padStart(2, '0') + ":" + 
-                         now.getSeconds().toString().padStart(2, '0');
-            document.getElementById('clock').innerText = time;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
+        // Simple smooth scrolling for navigation
+        document.querySelectorAll('nav a').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80, // Adjust for fixed header
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
     </script>
+
 </body>
 </html>
