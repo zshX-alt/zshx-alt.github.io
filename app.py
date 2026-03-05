@@ -16,15 +16,22 @@ def home():
 
 @app.route("/chat", methods=["POST"])
 def chat():
+    try:
 
-    data=request.json
-    message=data.get("message","")
+        data=request.json
+        message=data.get("message","")
 
-    response=model.generate_content(message)
+        response=model.generate_content(message)
 
-    return jsonify({
-        "reply":response.text
-    })
+        return jsonify({
+            "reply":response.text
+        })
+
+    except Exception as e:
+        return jsonify({
+            "error":str(e)
+        }),500
+
 
 if __name__ == "__main__":
     port=int(os.environ.get("PORT",8080))
