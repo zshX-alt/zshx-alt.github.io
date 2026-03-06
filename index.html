@@ -1,15 +1,29 @@
-<div style="padding: 20px; background: #0f172a; color: white; min-height: 100vh; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-    <h1 style="color: #818cf8;">Neko-Chat AI Test 🐾</h1>
-    <p style="color: #94a3b8;">Ketik kalimat Jepang untuk ngetes koneksi:</p>
-    
-    <div style="width: 100%; max-width: 400px; display: flex; gap: 10px;">
-        <input type="text" id="test-input" placeholder="Contoh: Ohayou..." style="flex: 1; padding: 12px; border-radius: 10px; border: none; outline: none;">
-        <button onclick="testAI()" style="padding: 12px 20px; background: #6366f1; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: bold;">
-            KIRIM
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neko-Chat Test</title>
+</head>
+<body style="background: #0f172a; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding-top: 50px;">
+
+    <h2 style="color: #818cf8;">🐾 Neko-Chat AI Test</h2>
+    <p style="color: #94a3b8;">Tes koneksi ke Pipedream & OpenAI</p>
+
+    <div style="background: #1e293b; padding: 20px; border-radius: 15px; border: 1px solid #334155; width: 90%; max-width: 400px;">
+        <input type="text" id="test-input" placeholder="Ketik: Konnichiwa..." 
+               style="width: 100%; padding: 12px; border-radius: 8px; border: none; margin-bottom: 10px; box-sizing: border-box;">
+        
+        <button onclick="testAI()" 
+                style="width: 100%; padding: 12px; background: #6366f1; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+            KIRIM KE AI
         </button>
+
+        <div id="test-result" style="margin-top: 20px; padding: 15px; background: #0f172a; border-radius: 10px; min-height: 50px; font-size: 14px; border: 1px dashed #475569;">
+            Hasil akan muncul di sini...
+        </div>
     </div>
 
-    <div id="test-result" style="margin-top: 20px; width: 100%; max-width: 400px; padding: 20px; background: #1e293b; border-radius: 15px; border: 1px solid #334155; min-height: 100px; line-height: 1.6;">
-        Hasil bedah kalimat akan muncul di sini...
-    </div>
-</div>
+    <script src="script.js"></script>
+</body>
+</html>
