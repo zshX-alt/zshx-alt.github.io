@@ -2,10 +2,12 @@ async function testAI() {
     const input = document.getElementById('test-input').value;
     const resArea = document.getElementById('test-result');
     
-    // URL Pipedream Anda
+    // URL Pipedream kamu (Pastikan ini yang di-Deploy)
     const PIPEDREAM_URL = "https://eo14sp07nc6dwfi.m.pipedream.net"; 
 
-    resArea.innerText = "Neko-Sensei sedang mengetik... 🐾";
+    if(!input) return alert("Ketik sesuatu dulu, Nyaa!");
+
+    resArea.innerText = "Neko-Sensei sedang berpikir... 🐾";
 
     try {
         const response = await fetch(PIPEDREAM_URL, {
@@ -15,9 +17,14 @@ async function testAI() {
         });
         
         const data = await response.json();
-        // Menampilkan jawaban dari ChatGPT lewat Pipedream
-        resArea.innerText = data.choices[0].message.content;
+        
+        // Ambil hasil dari OpenAI
+        if (data.choices && data.choices[0]) {
+            resArea.innerText = data.choices[0].message.content;
+        } else {
+            resArea.innerText = "Data diterima tapi format salah. Cek Pipedream!";
+        }
     } catch (e) {
-        resArea.innerText = "Koneksi Gagal! Pastikan Pipedream sudah di-DEPLOY.";
+        resArea.innerText = "Error: " + e.message + "\nCek apakah Pipedream sudah di-Deploy!";
     }
 }
