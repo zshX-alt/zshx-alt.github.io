@@ -3,37 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JLPT N4 Study Tracker</title>
+    <title>JLPT N4 - Master Tracker</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>JLPT N4 Progress</h1>
-            <p>Klik pada kartu untuk menandai materi yang sudah dikuasai.</p>
+            <h1>JLPT N4 Study</h1>
+            <div class="stats-container">
+                <div class="stat-box">
+                    <span id="progress-percent">0%</span>
+                    <small>Total Progres</small>
+                </div>
+                <div class="stat-box">
+                    <span id="vocab-count">0 / 1500</span>
+                    <small>Kosakata</small>
+                </div>
+            </div>
+            <div class="progress-bar"><div id="main-progress" class="fill"></div></div>
         </header>
 
-        <div class="dashboard-grid">
-            <div class="card">
-                <h3>Kosakata (語彙)</h3>
-                <div class="progress-info"><span id="goi-count">0</span> / 1500</div>
-                <div class="progress-bar"><div id="goi-progress" class="fill"></div></div>
-            </div>
-            <div class="card">
-                <h3>Kanji (漢字)</h3>
-                <div class="progress-info"><span id="kanji-count">0</span> / 300</div>
-                <div class="progress-bar"><div id="kanji-progress" class="fill"></div></div>
-            </div>
+        <nav class="mode-selector">
+            <button onclick="changeMode('vocab')" id="mode-vocab" class="active">Kosakata</button>
+            <button onclick="changeMode('grammar')" id="mode-grammar">Tata Bahasa</button>
+        </nav>
+
+        <div id="grammar-menu" style="display:none;">
+            <div class="bab-container" id="bab-list">
+                </div>
+            <p class="bab-label">Topik: <span id="current-bab-name">Pilih Bab</span></p>
         </div>
 
-        <section class="list-section">
-            <div class="tabs">
-                <button id="btn-kanji" class="active" onclick="switchTab('kanji')">Daftar Kanji</button>
-                <button id="btn-vocab" onclick="switchTab('vocabulary')">Daftar Kosakata</button>
+        <main id="flashcard-area">
+            <div class="card-stack">
+                <div id="main-card" class="flashcard">
+                    <div class="card-front">
+                        <h2 id="card-kanji">...</h2>
+                        <p class="tap-hint">Klik untuk lihat arti</p>
+                    </div>
+                    <div class="card-back" id="card-content-back">
+                        </div>
+                </div>
             </div>
 
-            <div id="item-list" class="item-list"></div>
-        </section>
+            <div class="flashcard-controls">
+                <button class="btn-action dont-know" onclick="handleAnswer(false)">❌ Belum</button>
+                <button class="btn-action know" onclick="handleAnswer(true)">✅ Tahu</button>
+            </div>
+        </main>
 
         <footer>
             <button class="btn-reset" onclick="resetProgress()">Reset Semua Progres</button>
