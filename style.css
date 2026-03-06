@@ -1,0 +1,97 @@
+:root {
+    --bg-color: #f4f7f6;
+    --primary: #4a90e2;
+    --success: #66bb6a;
+    --text: #2c3e50;
+    --card-bg: #ffffff;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text);
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+}
+
+.container { max-width: 700px; margin: 0 auto; }
+
+header { text-align: center; margin-bottom: 30px; }
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.progress-bar {
+    background: #e0e0e0;
+    height: 8px;
+    border-radius: 4px;
+    margin-top: 10px;
+    overflow: hidden;
+}
+
+.fill {
+    background: var(--primary);
+    height: 100%;
+    width: 0%;
+    transition: width 0.4s ease;
+}
+
+.tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+
+.tabs button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.tabs button.active { background: var(--primary); color: white; }
+
+.item-card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.2s;
+    border-left: 5px solid #ccc;
+}
+
+.item-card.mastered {
+    border-left-color: var(--success);
+    background: #f1f9f1;
+}
+
+.item-main { font-size: 1.4rem; font-weight: bold; width: 70px; }
+
+.item-detail { flex: 1; }
+
+.item-detail small { color: #7f8c8d; }
+
+.btn-reset {
+    margin-top: 30px;
+    background: none;
+    border: 1px solid #e74c3c;
+    color: #e74c3c;
+    padding: 8px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
