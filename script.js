@@ -1,105 +1,105 @@
-/* --- STATE MANAGEMENT --- */
-let currentDay = parseInt(localStorage.getItem('jlpt_day')) || 1;
-let masteredList = JSON.parse(localStorage.getItem('jlpt_mastered')) || [];
-// Daftar kata yang pernah diklik "ULANGI" (disimpan permanen untuk review)
-let reviewPool = JSON.parse(localStorage.getItem('jlpt_review_pool')) || [];
+// Penggunaan const untuk performa memori
+const CONFIG = {
+    targetPerDay: 25,
+    totalTarget: 1500
+};
 
-let todayQueue = [];
-let isReviewDay = currentDay % 7 === 0;
+let state = {
+    currentDay: parseInt(localStorage.getItem('n4_day')) || 1,
+    mastered: JSON.parse(localStorage.getItem('n4_mastered')) || [],
+    pool: JSON.parse(localStorage.getItem('n4_pool')) || [],
+    queue: [],
+    index: 0,
+    isReviewDay: false
+};
 
-// Penentuan Isi Antrean (Queue)
-if (isReviewDay) {
-    // Hari ke-7, 14, dst: Ambil dari Review Pool
-    todayQueue = vocabDatabase.filter(v => reviewPool.includes(v.id));
-    if (todayQueue.length === 0) {
-        // Jika tidak ada kata sulit, ambil 25 kata acak dari yang sudah dihafal
-        todayQueue = vocabDatabase.filter(v => masteredList.includes(v.id)).slice(0, 25);
-    }
-} else {
-    // Hari Biasa: Ambil 25 kata sesuai jadwal
-    todayQueue = vocabDatabase.filter(v => v.day === currentDay);
-}
+const UI = {
+    card: document.getElementById('card'),
+    controls: document.getElementById('card-controls'),
+    kanji: document.getElementById('d-kanji'),
+    reading: document.getElementById('d-reading'),
+    meaning: document.getElementById('d-meaning'),
+    dayLabel: document.getElementById('label-day'),
+    countLabel: document.getElementById('label-count')
+};
 
-let index = 0;
-
-/* --- FLASHCARD LOGIC --- */
-function flip() {
-    document.getElementById('flashcard').classList.toggle('flipped');
-    document.getElementById('vocab-controls').classList.add('visible');
-}
-
-function renderVocab() {
-    if (todayQueue.length === 0) {
-        document.getElementById('disp-kanji').innerText = "KOSONG";
-        document.getElementById('disp-meaning').innerText = "Belum ada data untuk hari ini";
-        return;
-    }
-
-    if (index >= todayQueue.length) {
-        finishDay();
-        return;
-    }
-
-    const data = todayQueue[index];
-    document.getElementById('disp-kanji').innerText = data.kanji;
-    document.getElementById('disp-reading').innerText = data.reading;
-    document.getElementById('disp-meaning').innerText = data.meaning;
+function init() {
+    state.isReviewDay = state.currentDay % 7 === 0;
     
-    // Label Header
-    const modeText = isReviewDay ? "REVIU MINGGUAN" : `HARI ${currentDay}`;
-    document.getElementById('val-day').innerText = modeText;
-    document.getElementById('val-counter').innerText = `${index} / ${todayQueue.length}`;
-    
-    document.getElementById('flashcard').classList.remove('flipped');
-    document.getElementById('vocab-controls').classList.remove('visible');
-}
-
-function submitResult(isGood) {
-    const currentWord = todayQueue[index];
-
-    if(isGood) {
-        // Jika berhasil di hari biasa, masukkan ke daftar hafal
-        if(!masteredList.includes(currentWord.id)) {
-            masteredList.push(currentWord.id);
-            localStorage.setItem('jlpt_mastered', JSON.stringify(masteredList));
+    if (state.isReviewDay) {
+        state.queue = vocabDatabase.filter(v => state.pool.includes(v.id));
+        if (state.queue.length === 0) {
+            state.queue = vocabDatabase.filter(v => state.mastered.includes(v.id)).slice(0, CONFIG.targetPerDay);
         }
-        // Jika berhasil di hari review, hapus dari pool review
-        if(isReviewDay) {
-            reviewPool = reviewPool.filter(id => id !== currentWord.id);
-            localStorage.setItem('jlpt_review_pool', JSON.stringify(reviewPool));
-        }
-        index++;
     } else {
-        // Jika Gagal, masukkan ke Pool Review Permanen
-        if(!reviewPool.includes(currentWord.id)) {
-            reviewPool.push(currentWord.id);
-            localStorage.setItem('jlpt_review_pool', JSON.stringify(reviewPool));
-        }
-        // Re-queue untuk sesi sekarang
-        const failed = todayQueue.splice(index, 1)[0];
-        todayQueue.push(failed);
+        state.queue = vocabDatabase.filter(v => v.day === state.currentDay);
     }
-    renderVocab();
+    
+    render();
 }
 
-function finishDay() {
-    alert(isReviewDay ? "Review Mingguan Selesai! Otak Anda semakin tajam." : "Target 25 Kata Selesai!");
-    currentDay++;
-    localStorage.setItem('jlpt_day', currentDay);
+function flip() {
+    UI.card.classList.toggle('flipped');
+    UI.controls.classList.add('visible');
+}
+
+function render() {
+    if (state.index >= state.queue.length) {
+        finishSessi();
+        return;
+    }
+
+    const item = state.queue[state.index];
+    UI.kanji.innerText = item.kanji;
+    UI.reading.innerText = item.reading;
+    UI.meaning.innerText = item.meaning;
+    
+    UI.dayLabel.innerText = state.isReviewDay ? "REVIU MINGGUAN" : `HARI ${state.currentDay}`;
+    UI.countLabel.innerText = `${state.index + 1} / ${state.queue.length}`;
+    
+    UI.card.classList.remove('flipped');
+    UI.controls.classList.remove('visible');
+}
+
+function handleResult(isGood) {
+    const item = state.queue[state.index];
+
+    if (isGood) {
+        if (!state.mastered.includes(item.id)) state.mastered.push(item.id);
+        if (state.isReviewDay) state.pool = state.pool.filter(id => id !== item.id);
+        state.index++;
+    } else {
+        if (!state.pool.includes(item.id)) state.pool.push(item.id);
+        // Spaced Repetition Logic: Masukkan ke antrean akhir sesi ini
+        const currentWord = state.queue.splice(state.index, 1)[0];
+        state.queue.push(currentWord);
+    }
+
+    localStorage.setItem('n4_mastered', JSON.stringify(state.mastered));
+    localStorage.setItem('n4_pool', JSON.stringify(state.pool));
+    render();
+}
+
+function finishSessi() {
+    alert("Sesi Selesai!");
+    state.currentDay++;
+    localStorage.setItem('n4_day', state.currentDay);
     location.reload();
 }
 
-// Navigasi Tab (Tambahkan ke fungsi navTo yang sudah ada di index.html)
-function navTo(page) {
-    ['vocab', 'grammar', 'progress'].forEach(s => document.getElementById(`section-${s}`).classList.add('hidden'));
+function switchPage(p) {
+    document.querySelectorAll('[id^="sec-"]').forEach(s => s.classList.add('hidden'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    document.getElementById(`section-${page}`).classList.remove('hidden');
-    document.getElementById(`n-${page}`).classList.add('active');
-    document.getElementById('page-title').innerText = page;
     
-    if(page === 'grammar') renderGrammar();
-    if(page === 'progress') renderProgress();
+    document.getElementById(`sec-${p}`).classList.remove('hidden');
+    document.getElementById(`n-${p}`).classList.add('active');
+    UI.controls.classList.remove('visible');
+
+    if (p === 'progress') {
+        const perc = (state.mastered.length / CONFIG.totalTarget) * 100;
+        document.getElementById('bar-v').style.width = `${perc}%`;
+        document.getElementById('stat-v').innerText = `${state.mastered.length} / ${CONFIG.totalTarget} Kata`;
+    }
 }
 
-// Panggil fungsi render awal
-renderVocab();
+init();
