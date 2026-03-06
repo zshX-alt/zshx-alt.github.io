@@ -3,161 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>N4 Master v2.0</title>
+    <title>N4 Master</title>
     <style>
         :root {
-            --bg-dark: #0a0a0a;
-            --bg-card: #1c1c1e;
+            --bg: #000000;
+            --card-bg: #1c1c1e;
             --accent: #2c2c2e;
-            --text-main: #ffffff;
-            --text-dim: #8e8e93;
-            --success: #32d74b;
+            --text: #ffffff;
+            --dim: #8e8e93;
+            --success: #30d158;
             --error: #ff453a;
-            --highlight: #0a84ff;
-            --safe-bottom: env(safe-area-inset-bottom);
+            --blue: #0a84ff;
         }
 
-        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; outline: none; }
-
+        * { -webkit-tap-highlight-color: transparent; box-sizing: border-box; }
         body {
-            font-family: -apple-system, system-ui, sans-serif;
-            margin: 0; background-color: var(--bg-dark); color: var(--text-main);
+            font-family: -apple-system, system-ui, sans-serif; margin: 0; 
+            background: var(--bg); color: var(--text);
             height: 100vh; display: flex; flex-direction: column; overflow: hidden;
         }
 
         header {
-            padding: 15px; text-align: center; border-bottom: 1px solid var(--accent);
-            background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(15px);
-            font-size: 13px; letter-spacing: 2px; font-weight: 700; z-index: 100;
+            padding: 18px; text-align: center; border-bottom: 0.5px solid var(--accent);
+            background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+            font-size: 13px; font-weight: 700; letter-spacing: 2px;
         }
 
-        .container { flex: 1; overflow-y: auto; padding: 20px; position: relative; scroll-behavior: smooth; }
+        .container { flex: 1; overflow-y: auto; padding: 20px; padding-bottom: 150px; }
 
-        /* Card Section Optimized */
-        .vocab-card-container { 
-            height: 50vh; perspective: 1500px; position: relative; 
-            z-index: 1; margin: 10px 0 30px;
-        }
-
+        /* Flashcard Area */
+        .card-zone { height: 50vh; perspective: 1200px; margin: 20px 0; z-index: 1; }
         .card-inner {
             position: relative; width: 100%; height: 100%;
-            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            transform-style: preserve-3d; will-change: transform;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d; cursor: pointer;
         }
-
         .card-inner.flipped { transform: rotateY(180deg); }
-
         .card-face {
             position: absolute; width: 100%; height: 100%;
-            backface-visibility: hidden; border-radius: 24px;
+            backface-visibility: hidden; border-radius: 20px;
             display: flex; flex-direction: column; justify-content: center;
-            align-items: center; padding: 30px; border: 1px solid var(--accent);
-            background: var(--bg-card); box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            align-items: center; padding: 30px; background: var(--card-bg);
+            border: 1px solid var(--accent);
         }
-
         .card-back { transform: rotateY(180deg); background: #252528; }
 
-        .kanji-text { font-size: 72px; margin: 0; font-weight: 700; }
-        .reading-text { font-size: 22px; color: var(--text-dim); margin-bottom: 12px; font-weight: 400; }
-        .meaning-text { font-size: 30px; font-weight: 800; color: var(--success); text-align: center; line-height: 1.2; }
+        .kanji { font-size: 72px; margin: 0; font-weight: 600; }
+        .reading { font-size: 22px; color: var(--dim); margin-bottom: 8px; }
+        .meaning { font-size: 30px; font-weight: 700; color: var(--success); text-align: center; }
 
-        /* Action Buttons Optimized */
+        /* Controls - Fixed at top layer */
         .controls {
-            position: fixed; bottom: calc(85px + var(--safe-bottom)); 
-            left: 0; width: 100%; display: none; padding: 0 20px; 
-            gap: 15px; z-index: 999;
+            position: fixed; bottom: 85px; left: 0; width: 100%;
+            display: none; padding: 0 20px; gap: 15px; z-index: 9999;
         }
-        
-        .controls.visible { display: flex; animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
-
-        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .controls.visible { display: flex; animation: slideUp 0.3s ease; }
 
         .btn {
-            flex: 1; padding: 18px; border-radius: 18px; border: none;
-            font-size: 14px; font-weight: 800; cursor: pointer;
-            transition: transform 0.1s active; text-transform: uppercase;
+            flex: 1; padding: 18px; border-radius: 14px; border: none;
+            font-size: 14px; font-weight: 700; text-transform: uppercase;
         }
-        .btn:active { transform: scale(0.96); }
-        
-        .btn-again { background: #2c2c2e; color: var(--error); border: 1px solid rgba(255, 69, 58, 0.3); }
+        .btn-again { background: #262626; color: var(--error); border: 1px solid var(--error); }
         .btn-good { background: var(--success); color: #000; }
 
-        /* Navigation */
+        /* Bottom Nav - Text Only */
         nav {
-            position: fixed; bottom: 0; width: 100%; 
-            background: rgba(28, 28, 30, 0.95); backdrop-filter: blur(20px);
-            display: flex; justify-content: space-around; 
-            padding: 10px 0 calc(10px + var(--safe-bottom));
-            border-top: 1px solid var(--accent); z-index: 1000;
+            position: fixed; bottom: 0; width: 100%; background: #1c1c1e;
+            display: flex; border-top: 0.5px solid var(--accent);
+            padding-bottom: env(safe-area-inset-bottom);
         }
-        
-        .nav-item { color: var(--text-dim); text-align: center; flex: 1; font-size: 10px; font-weight: 600; }
-        .nav-item.active { color: var(--text-main); }
-        .nav-icon { font-size: 22px; display: block; margin-bottom: 4px; filter: grayscale(1); }
-        .nav-item.active .nav-icon { filter: grayscale(0); }
+        .nav-item { 
+            flex: 1; text-align: center; padding: 22px 0; 
+            color: var(--dim); font-size: 11px; font-weight: 700; letter-spacing: 1px;
+        }
+        .nav-item.active { color: var(--text); border-top: 2px solid var(--blue); }
 
+        .grammar-box { background: var(--card-bg); padding: 18px; border-radius: 15px; margin-bottom: 12px; border-left: 4px solid var(--blue); }
         .hidden { display: none; }
-        .progress-fill { height: 100%; background: var(--highlight); transition: width 1s ease-in-out; }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
 
-<header id="header-title">VOCABULARY</header>
+<header id="h-title">VOCABULARY</header>
 
 <div class="container">
     <div id="sec-vocab">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 11px; font-weight: 700; color: var(--text-dim);">
-            <span id="label-day" style="color: var(--highlight)">DAY 1</span>
-            <span id="label-count">0 / 25</span>
+        <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--dim); font-weight: bold;">
+            <span id="label-day">DAY 1</span>
+            <span id="label-count">0 / 0</span>
         </div>
-        
-        <div class="vocab-card-container">
-            <div class="card-inner" id="card" onclick="flip()">
-                <div class="card-face card-front">
-                    <h1 class="kanji-text" id="d-kanji">---</h1>
-                    <p style="margin-top: 50px; color: var(--text-dim); font-size: 10px; letter-spacing: 1px;">TAP TO REVEAL</p>
+        <div class="card-zone">
+            <div class="card-inner" id="card" onclick="flipCard()">
+                <div class="card-face">
+                    <h1 class="kanji" id="v-kanji">---</h1>
+                    <p style="color: var(--dim); font-size: 10px; margin-top: 40px; letter-spacing: 1px;">TAP TO FLIP</p>
                 </div>
                 <div class="card-face card-back">
-                    <p class="reading-text" id="d-reading">---</p>
-                    <h2 class="meaning-text" id="d-meaning">---</h2>
+                    <div class="reading" id="v-reading">---</div>
+                    <div class="meaning" id="v-meaning">---</div>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="sec-grammar" class="hidden">
-        <input type="text" class="hidden" id="grammarSearch"> <div id="grammar-list"></div>
+        <div id="grammar-list"></div>
     </div>
 
-    <div id="sec-progress" class="hidden">
-        <div style="background: var(--bg-card); padding: 25px; border-radius: 20px; border: 1px solid var(--accent);">
-            <p style="font-size: 12px; color: var(--text-dim); margin: 0 0 15px;">TOTAL MASTERY</p>
-            <div style="background: var(--accent); height: 12px; border-radius: 6px; overflow: hidden; margin-bottom: 10px;">
-                <div id="bar-v" class="progress-fill"></div>
+    <div id="sec-stats" class="hidden">
+        <div class="grammar-box">
+            <p style="font-size: 11px; color: var(--dim); margin: 0 0 10px;">MASTERY PROGRESS</p>
+            <div style="background: var(--accent); height: 8px; border-radius: 4px; overflow: hidden;">
+                <div id="p-bar" style="background: var(--success); height: 100%; width: 0%; transition: 0.8s;"></div>
             </div>
-            <p id="stat-v" style="font-size: 16px; font-weight: 700; margin: 0;">0 / 1500 Kata</p>
+            <p id="p-text" style="margin-top: 12px; font-weight: 700; font-size: 14px;">0 / 1500 WORDS</p>
         </div>
     </div>
 </div>
 
 <div class="controls" id="card-controls">
-    <button class="btn btn-again" onclick="handleResult(false)">Again</button>
-    <button class="btn btn-good" onclick="handleResult(true)">Good</button>
+    <button class="btn btn-again" onclick="handleResult(false)">ULANGI</button>
+    <button class="btn btn-good" onclick="handleResult(true)">HAFAI</button>
 </div>
 
 <nav>
-    <div class="nav-item active" id="n-vocab" onclick="switchPage('vocab')">
-        <span class="nav-icon">🗂️</span>VOCAB
-    </div>
-    <div class="nav-item" id="n-grammar" onclick="switchPage('grammar')">
-        <span class="nav-icon">📖</span>GRAMMAR
-    </div>
-    <div class="nav-item" id="n-progress" onclick="switchPage('progress')">
-        <span class="nav-icon">📊</span>STATS
-    </div>
+    <div class="nav-item active" id="n-vocab" onclick="switchTab('vocab')">VOCAB</div>
+    <div class="nav-item" id="n-grammar" onclick="switchTab('grammar')">GRAMMAR</div>
+    <div class="nav-item" id="n-stats" onclick="switchTab('stats')">STATS</div>
 </nav>
 
-<script src="data.js"></script>
+<script src="data_vocab.js"></script>
+<script src="data_grammar.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
