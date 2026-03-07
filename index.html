@@ -3,98 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neural Engine v10.8</title>
+    <title>Neural Engine v10.9 - Target 150 Days</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
-        body { background: #0D0D0D; font-family: 'Inter', sans-serif; color: #E5E5E5; }
-        .card-main { background: #1A1A1A; border: 1px solid #262626; border-radius: 24px; }
-        .btn-primary { background: #FFFFFF; color: #000000; font-weight: 800; border-radius: 16px; transition: all 0.2s; }
-        .btn-secondary { background: #262626; color: #FFFFFF; font-weight: 800; border-radius: 16px; }
+        body { background: #080808; font-family: 'Inter', sans-serif; color: #E5E5E5; }
+        .card-main { background: #141414; border: 1px solid #222; border-radius: 24px; }
         .page { display: none; } .page.active { display: flex; }
-        .progress-container { height: 8px; background: #262626; border-radius: 4px; overflow: hidden; }
-        .bar-vocab { background: #FF8C00; }
-        .bar-gram { background: #A855F7; }
+        .bar-v { background: #FF8C00; } .bar-g { background: #A855F7; }
     </style>
 </head>
-<body class="h-screen flex flex-col overflow-hidden">
+<body class="h-screen flex flex-col overflow-hidden text-white">
 
-    <div id="pg-dash" class="page active flex-col p-6 space-y-8 overflow-y-auto">
-        <header class="flex justify-between items-center">
+    <div id="pg-dash" class="page active flex-col p-6 space-y-6 overflow-y-auto">
+        <header class="flex justify-between items-center py-4">
             <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 bg-[#1A1A1A] rounded-xl flex items-center justify-center border border-[#262626]">
-                    <span class="text-orange-500 font-black text-xl">N4</span>
+                <div class="w-12 h-12 bg-zinc-900 rounded-2xl flex items-center justify-center border border-zinc-800 shadow-xl">
+                    <span class="text-orange-500 font-black text-xl italic">N4</span>
                 </div>
                 <div>
-                    <h1 class="font-black text-lg leading-tight">Neural Engine</h1>
-                    <p id="days-left" class="text-[10px] font-bold opacity-40 uppercase tracking-widest">-- DAYS LEFT</p>
+                    <h1 class="font-black text-base tracking-tight uppercase">Neural Engine</h1>
+                    <p id="days-left" class="text-[10px] font-bold text-orange-500/60 tracking-widest uppercase">-- DAYS LEFT</p>
                 </div>
-            </div>
-            <div class="text-right">
-                <span class="text-orange-500 text-xs font-black italic"><i class="fas fa-fire"></i> 1 DAY</span>
             </div>
         </header>
 
-        <section class="space-y-6">
-            <h2 class="text-[11px] font-black opacity-30 uppercase tracking-[0.2em]">Learning Progress</h2>
-            <div class="space-y-5">
-                <div>
-                    <div class="flex justify-between text-xs font-bold mb-2">
-                        <span>VOCABULARY</span><span id="stat-v-perc" class="text-orange-500">0%</span>
-                    </div>
-                    <div class="progress-container"><div id="stat-v-bar" class="bar-vocab h-full transition-all duration-700" style="width: 0%"></div></div>
-                </div>
-                <div>
-                    <div class="flex justify-between text-xs font-bold mb-2">
-                        <span>GRAMMAR</span><span id="stat-g-perc" class="text-purple-500">0%</span>
-                    </div>
-                    <div class="progress-container"><div id="stat-g-bar" class="bar-gram h-full transition-all duration-700" style="width: 0%"></div></div>
+        <div class="grid grid-cols-2 gap-4">
+            <div class="card-main p-5">
+                <p class="text-[9px] font-black opacity-30 uppercase mb-2">Vocab Mastery</p>
+                <p id="stat-v-perc" class="text-2xl font-black italic">0%</p>
+                <div class="h-1.5 w-full bg-zinc-800 rounded-full mt-2 overflow-hidden">
+                    <div id="stat-v-bar" class="bar-v h-full transition-all duration-700" style="width: 0%"></div>
                 </div>
             </div>
-        </section>
+            <div class="card-main p-5">
+                <p class="text-[9px] font-black opacity-30 uppercase mb-2">Grammar Mastery</p>
+                <p id="stat-g-perc" class="text-2xl font-black italic">0%</p>
+                <div class="h-1.5 w-full bg-zinc-800 rounded-full mt-2 overflow-hidden">
+                    <div id="stat-g-bar" class="bar-g h-full transition-all duration-700" style="width: 0%"></div>
+                </div>
+            </div>
+        </div>
 
         <section class="card-main p-6 space-y-4 shadow-2xl">
-            <p class="text-center text-[10px] font-black opacity-20 uppercase tracking-widest">Daily Mission</p>
-            <div class="flex justify-between items-center text-sm font-bold">
-                <div class="flex items-center space-x-3"><i class="fas fa-check-circle text-orange-500/40"></i> <span>25 Vocabulary</span></div>
-                <span id="mission-v" class="opacity-40">0/25</span>
-            </div>
-            <div class="flex justify-between items-center text-sm font-bold">
-                <div class="flex items-center space-x-3"><i class="fas fa-check-circle text-purple-500/40"></i> <span>10 Grammar</span></div>
-                <span id="mission-g" class="opacity-40">0/10</span>
-            </div>
+            <h2 class="text-center text-[10px] font-black opacity-20 uppercase tracking-[0.3em]">Mission Checkpoint</h2>
+            <div class="flex justify-between items-center"><span class="text-sm font-bold opacity-70">Vocabulary</span><span id="mission-v" class="font-black text-orange-500">0/25</span></div>
+            <div class="flex justify-between items-center"><span class="text-sm font-bold opacity-70">Grammar</span><span id="mission-g" class="font-black text-purple-500">0/10</span></div>
         </section>
 
-        <div class="grid grid-cols-2 gap-4 pb-10">
-            <button onclick="Engine.mulaiSesi('vocab')" class="btn-primary py-5 text-sm uppercase italic">Start Vocab</button>
-            <button onclick="Engine.mulaiSesi('grammar')" class="btn-secondary py-5 text-sm uppercase italic border border-zinc-700">Start Grammar</button>
-            <button onclick="Engine.mulaiReview()" class="col-span-2 py-4 bg-[#111] text-zinc-500 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] border border-zinc-800">Review Today (Unlimited)</button>
+        <div class="grid grid-cols-2 gap-4 pb-12">
+            <button onclick="Engine.mulaiSesi('vocab')" class="bg-white text-black py-6 rounded-3xl font-black uppercase text-xs active:scale-95 transition shadow-lg">Start Vocab</button>
+            <button onclick="Engine.mulaiSesi('grammar')" class="bg-zinc-800 text-white py-6 rounded-3xl font-black uppercase text-xs border border-zinc-700 active:scale-95 transition">Start Grammar</button>
+            <button onclick="Engine.mulaiReview()" class="col-span-2 py-4 bg-zinc-900 text-zinc-500 rounded-2xl text-[9px] font-black uppercase tracking-[0.2em] border border-zinc-800/50">Daily Review (Unlimited)</button>
         </div>
     </div>
 
     <div id="pg-sesi" class="page flex-col h-full bg-black">
         <header class="p-6 flex justify-between">
-            <button onclick="location.reload()" class="text-xs font-bold opacity-30 uppercase tracking-widest">Exit</button>
-            <span id="session-title" class="text-[10px] font-black opacity-10 uppercase tracking-[0.4em]">Neural Training</span>
+            <button onclick="location.reload()" class="text-[10px] font-black opacity-30 uppercase tracking-widest">Exit</button>
             <div class="w-10"></div>
         </header>
         <main class="flex-1 flex flex-col items-center justify-center p-8">
-            <div id="kartu" onclick="Engine.tampilkan()" class="w-full max-w-sm aspect-[4/5] card-main flex flex-col items-center justify-center text-center p-10 relative active:scale-95 transition-transform duration-150">
-                <div id="type-badge" class="absolute top-10 px-4 py-1 rounded-full text-[9px] font-black border opacity-40 uppercase italic">TYPE</div>
-                <h2 id="q-kanji" class="text-6xl font-black mb-8 tracking-tighter"></h2>
-                <p id="tap-hint" class="text-[10px] font-bold opacity-20 uppercase tracking-[0.3em] animate-pulse">Tap to reveal</p>
-                <div id="box-ans" class="hidden space-y-6">
-                    <p id="q-baca" class="text-xl font-bold italic opacity-60"></p>
-                    <div class="h-px bg-zinc-800 w-12 mx-auto"></div>
-                    <h3 id="q-arti" class="text-2xl font-black leading-tight"></h3>
+            <div id="kartu" onclick="Engine.tampilkan()" class="w-full max-w-sm aspect-[4/5] card-main flex flex-col items-center justify-center text-center p-12 relative active:scale-95 transition shadow-2xl">
+                <div id="type-badge" class="absolute top-10 px-5 py-1.5 rounded-full text-[9px] font-black border opacity-40 uppercase italic tracking-widest">TYPE</div>
+                <h2 id="q-kanji" class="text-6xl font-black mb-8 tracking-tighter text-white"></h2>
+                <div id="box-ans" class="hidden space-y-6 animate-in fade-in duration-500">
+                    <p id="q-baca" class="text-xl font-bold italic opacity-60 text-orange-400"></p>
+                    <div class="h-px bg-zinc-800 w-16 mx-auto"></div>
+                    <h3 id="q-arti" class="text-2xl font-bold leading-tight px-2"></h3>
                 </div>
+                <p id="tap-hint" class="absolute bottom-12 text-[8px] font-black opacity-20 uppercase tracking-[0.4em] animate-pulse">Tap To Reveal</p>
             </div>
-            <p id="progress-text" class="mt-10 text-[10px] font-black opacity-10 uppercase tracking-[0.5em]">0 / 0</p>
+            <p id="progress-text" class="mt-12 text-[10px] font-black opacity-10 uppercase tracking-[0.5em]">0 / 0</p>
         </main>
         <footer id="btn-eval" class="hidden p-8 grid grid-cols-2 gap-4 pb-16">
-            <button onclick="Engine.eval(false)" class="py-5 bg-zinc-900 rounded-2xl font-bold text-xs uppercase text-red-500">Lupa</button>
-            <button onclick="Engine.eval(true)" class="py-5 bg-white text-black rounded-2xl font-black text-xs uppercase">Ingat</button>
+            <button onclick="Engine.eval(false)" class="py-6 bg-zinc-900 rounded-3xl font-black text-xs uppercase text-red-500 tracking-widest">Lupa</button>
+            <button onclick="Engine.eval(true)" class="py-6 bg-white text-black rounded-3xl font-black text-xs uppercase tracking-widest shadow-xl">Ingat</button>
         </footer>
     </div>
 
@@ -103,14 +88,16 @@
 
     <script>
         const Engine = {
-            nodes: (() => {
-                const saved = JSON.parse(localStorage.getItem('neural_v108_data'));
-                const base = { ...N4_VOCAB, ...N4_GRAMMAR };
-                return saved ? { ...base, ...saved } : base;
-            })(),
-            queue: [], idx: 0,
+            nodes: {}, queue: [], idx: 0,
 
             init() {
+                // SINKRONISASI DATA
+                const saved = JSON.parse(localStorage.getItem('neural_v109_data'));
+                const base = { ...N4_VOCAB, ...N4_GRAMMAR };
+                
+                // Gunakan data simpanan jika ada, jika tidak pakai data base
+                this.nodes = saved ? { ...base, ...saved } : base;
+
                 if(!localStorage.getItem('target_date')) {
                     const d = new Date(); d.setDate(d.getDate() + 150);
                     localStorage.setItem('target_date', d.toISOString());
@@ -139,16 +126,20 @@
             },
 
             mulaiSesi(type) {
-                const limit = (type === 'vocab') ? 25 : 10;
-                this.queue = Object.values(this.nodes).filter(n => n.type === type && (!n.state || n.state === 'new')).slice(0, limit);
-                if(!this.queue.length) return alert("Belum ada data baru di file .js kamu!");
-                this.idx = 0; this.showPage('pg-sesi'); this.render();
+                // Mencari data yang belum dipelajari (state: new)
+                this.queue = Object.values(this.nodes).filter(n => n.type === type && n.state === 'new').slice(0, type === 'vocab' ? 25 : 10);
+                
+                if(this.queue.length === 0) return alert("Belum ada data baru! Tambahkan data di file .js kamu.");
+                
+                this.idx = 0;
+                this.showPage('pg-sesi');
+                this.render();
             },
 
             mulaiReview() {
                 const today = new Date().toLocaleDateString();
                 this.queue = Object.values(this.nodes).filter(n => n.last && new Date(n.last).toLocaleDateString() === today);
-                if(!this.queue.length) return alert("Selesaikan misi harian dulu!");
+                if(this.queue.length === 0) return alert("Kamu belum mempelajari apapun hari ini!");
                 this.idx = 0; this.showPage('pg-sesi'); this.render();
             },
 
@@ -159,6 +150,7 @@
                 document.getElementById('tap-hint').classList.remove('hidden');
                 document.getElementById('btn-eval').classList.add('hidden');
                 document.getElementById('progress-text').innerText = `${this.idx + 1} / ${this.queue.length}`;
+                
                 const b = document.getElementById('type-badge');
                 b.innerText = n.type;
                 b.style.color = n.type === 'grammar' ? '#A855F7' : '#FF8C00';
@@ -172,20 +164,22 @@
                 document.getElementById('btn-eval').classList.remove('hidden');
                 document.getElementById('q-baca').innerText = n.baca;
                 document.getElementById('q-arti').innerText = n.arti;
+                
                 window.speechSynthesis.cancel();
                 const m = new SpeechSynthesisUtterance(n.baca.split('|')[0]);
                 m.lang = 'ja-JP'; m.rate = 0.8; window.speechSynthesis.speak(m);
             },
 
-            eval(s) {
+            eval(sukses) {
                 const n = this.queue[this.idx];
-                n.state = 'review'; n.last = new Date().toISOString();
+                n.state = 'review';
+                n.last = new Date().toISOString();
                 this.save();
                 if (this.idx < this.queue.length - 1) { this.idx++; this.render(); }
                 else { location.reload(); }
             },
 
-            save() { localStorage.setItem('neural_v108_data', JSON.stringify(this.nodes)); },
+            save() { localStorage.setItem('neural_v109_data', JSON.stringify(this.nodes)); },
             showPage(id) {
                 document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
                 document.getElementById(id).classList.add('active');
