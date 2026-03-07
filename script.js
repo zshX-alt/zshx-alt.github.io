@@ -1,30 +1,34 @@
 async function testAI() {
-    const input = document.getElementById('test-input').value;
+    const inputField = document.getElementById('test-input');
     const resArea = document.getElementById('test-result');
     
-    // URL Pipedream kamu (Pastikan ini yang di-Deploy)
-    const PIPEDREAM_URL = "https://eo14sp07nc6dwfi.m.pipedream.net"; 
+    // URL Pipedream Baru Anda
+    const PIPEDREAM_URL = "https://eooov7kp4yqbi6h.m.pipedream.net"; 
 
-    if(!input) return alert("Ketik sesuatu dulu, Nyaa!");
+    if(!inputField.value) {
+        resArea.innerText = "Ketik kalimatnya dulu, Nyaa! 🐾";
+        return;
+    }
 
-    resArea.innerText = "Neko-Sensei sedang berpikir... 🐾";
+    resArea.innerHTML = "<em>Neko-Sensei sedang berpikir... 🐾</em>";
 
     try {
         const response = await fetch(PIPEDREAM_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: input })
+            body: JSON.stringify({ prompt: inputField.value })
         });
         
         const data = await response.json();
         
-        // Ambil hasil dari OpenAI
-        if (data.choices && data.choices[0]) {
-            resArea.innerText = data.choices[0].message.content;
+        // Membaca format jawaban Gemini: candidates[0].content.parts[0].text
+        if (data.candidates && data.candidates[0].content.parts[0].text) {
+            resArea.innerHTML = data.candidates[0].content.parts[0].text;
         } else {
-            resArea.innerText = "Data diterima tapi format salah. Cek Pipedream!";
+            resArea.innerText = "Hmm, Gemini tersambung tapi tidak ada jawaban. Cek Pipedream!";
         }
     } catch (e) {
-        resArea.innerText = "Error: " + e.message + "\nCek apakah Pipedream sudah di-Deploy!";
+        console.error(e);
+        resArea.innerText = "Koneksi Gagal! Pastikan Pipedream sudah di-DEPLOY dan Model diatur ke Gemini 1.5 Flash.";
     }
 }
