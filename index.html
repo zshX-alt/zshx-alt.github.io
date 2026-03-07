@@ -2,11 +2,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Minimal AI</title>
+<title>AI Chat</title>
 
 <style>
+
 body{
-background:#0f0f0f;
+background:#111;
 color:white;
 font-family:sans-serif;
 display:flex;
@@ -28,24 +29,27 @@ margin-bottom:10px;
 }
 
 input{
-width:75%;
+width:70%;
 padding:8px;
 }
 
 button{
 padding:8px;
 }
+
 </style>
 </head>
 
 <body>
 
 <div id="chat">
+
 <h2>AI Chat</h2>
 
 <div id="messages"></div>
 
 <input id="input" placeholder="Tanya sesuatu...">
+
 <button onclick="send()">Send</button>
 
 </div>
