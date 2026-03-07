@@ -3,25 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neko-Chat Test</title>
+    <title>Neko-Sensei AI 🐾</title>
+    <style>
+        body { background: #0f172a; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
+        .card { background: #1e293b; padding: 25px; border-radius: 20px; border: 1px solid #334155; width: 90%; max-width: 450px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        h1 { color: #818cf8; text-align: center; font-size: 24px; margin-bottom: 10px; }
+        input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #475569; background: #0f172a; color: white; margin-bottom: 15px; box-sizing: border-box; outline: none; }
+        button { width: 100%; padding: 12px; background: #6366f1; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        button:hover { background: #4f46e5; }
+        #test-result { margin-top: 20px; padding: 15px; background: #0f172a; border-radius: 12px; min-height: 100px; border: 1px dashed #475569; line-height: 1.6; font-size: 15px; }
+    </style>
 </head>
-<body style="background: #0f172a; color: white; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding-top: 50px;">
+<body>
 
-    <h2 style="color: #818cf8;">🐾 Neko-Chat AI Test</h2>
-    <p style="color: #94a3b8;">Tes koneksi ke Pipedream & OpenAI</p>
-
-    <div style="background: #1e293b; padding: 20px; border-radius: 15px; border: 1px solid #334155; width: 90%; max-width: 400px;">
-        <input type="text" id="test-input" placeholder="Ketik: Konnichiwa..." 
-               style="width: 100%; padding: 12px; border-radius: 8px; border: none; margin-bottom: 10px; box-sizing: border-box;">
+    <div class="card">
+        <h1>🐾 Neko-Sensei AI</h1>
+        <p style="text-align: center; color: #94a3b8; font-size: 14px;">Masukkan kalimat Jepang untuk dibedah:</p>
         
-        <button onclick="testAI()" 
-                style="width: 100%; padding: 12px; background: #6366f1; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
-            KIRIM KE AI
-        </button>
+        <input type="text" id="test-input" placeholder="Contoh: Watashi wa gakusei desu">
+        
+        <button onclick="testAI()">BEDAH KALIMAT</button>
 
-        <div id="test-result" style="margin-top: 20px; padding: 15px; background: #0f172a; border-radius: 10px; min-height: 50px; font-size: 14px; border: 1px dashed #475569;">
-            Hasil akan muncul di sini...
-        </div>
+        <div id="test-result">Neko-Sensei siap membantu, desu! 🐾</div>
     </div>
 
     <script src="script.js"></script>
