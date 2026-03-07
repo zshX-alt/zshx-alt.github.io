@@ -1,86 +1,56 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neko-Sensei AI 🐾</title>
-    <style>
-        body { 
-            background: #0f172a; 
-            color: white; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            min-height: 100vh; 
-            margin: 0; 
-        }
-        .card { 
-            background: #1e293b; 
-            padding: 30px; 
-            border-radius: 20px; 
-            border: 1px solid #334155; 
-            width: 90%; 
-            max-width: 450px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4); 
-        }
-        h1 { color: #818cf8; text-align: center; margin-bottom: 20px; }
-        p { color: #94a3b8; font-size: 14px; text-align: center; }
-        
-        input { 
-            width: 100%; 
-            padding: 15px; 
-            border-radius: 12px; 
-            border: 1px solid #475569; 
-            background: #0f172a; 
-            color: white; 
-            margin-bottom: 15px; 
-            box-sizing: border-box; 
-            font-size: 16px;
-        }
-        input:focus { border-color: #6366f1; outline: none; }
-        
-        button { 
-            width: 100%; 
-            padding: 15px; 
-            background: #6366f1; 
-            color: white; 
-            border: none; 
-            border-radius: 12px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            font-size: 16px;
-            transition: 0.3s; 
-        }
-        button:hover { background: #4f46e5; transform: translateY(-2px); }
-        
-        #result { 
-            margin-top: 25px; 
-            padding: 20px; 
-            background: #0f172a; 
-            border-radius: 15px; 
-            min-height: 100px; 
-            border: 1px dashed #475569; 
-            line-height: 1.6; 
-            font-size: 15px;
-            white-space: pre-wrap; /* Agar format teks/baris baru terjaga */
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Minimal AI</title>
+
+<style>
+body{
+background:#0f0f0f;
+color:white;
+font-family:sans-serif;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+#chat{
+width:400px;
+}
+
+#messages{
+height:300px;
+overflow:auto;
+border:1px solid #333;
+padding:10px;
+margin-bottom:10px;
+}
+
+input{
+width:75%;
+padding:8px;
+}
+
+button{
+padding:8px;
+}
+</style>
 </head>
+
 <body>
 
-    <div class="card">
-        <h1>🐾 Neko-Sensei AI</h1>
-        <p>Masukkan kalimat Jepang yang ingin dibedah, Nyaa! 🐾</p>
-        
-        <input type="text" id="user-input" placeholder="Contoh: Watashi wa gakusei desu">
-        
-        <button onclick="testAI()">BEDAH KALIMAT</button>
+<div id="chat">
+<h2>AI Chat</h2>
 
-        <div id="result">Neko-Sensei siap membantu Anda belajar bahasa Jepang! 🐾</div>
-    </div>
+<div id="messages"></div>
 
-    <script src="script.js"></script>
+<input id="input" placeholder="Tanya sesuatu...">
+<button onclick="send()">Send</button>
+
+</div>
+
+<script src="script.js"></script>
+
 </body>
 </html>
