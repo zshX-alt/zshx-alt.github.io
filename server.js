@@ -2,46 +2,48 @@ import express from "express"
 import cors from "cors"
 import Groq from "groq-sdk"
 
-const app=express()
+const app = express()
 
 app.use(cors())
 app.use(express.json())
 app.use(express.static("."))
 
-const groq=new Groq({
-apiKey:process.env.GROQ_API_KEY
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY
 })
 
-app.post("/api/chat",async(req,res)=>{
+app.post("/api/chat", async (req, res) => {
 
-try{
+  try {
 
-const userMessage=req.body.message
+    const message = req.body.message
 
-const completion=await groq.chat.completions.create({
-messages:[
-{
-role:"user",
-content:userMessage
-}
-],
-model:"llama3-8b-8192"
+    const completion = await groq.chat.completions.create({
+      messages: [
+        {
+          role: "user",
+          content: message
+        }
+      ],
+      model: "llama3-8b-8192"
+    })
+
+    res.json({
+      reply: completion.choices[0].message.content
+    })
+
+  } catch (err) {
+
+    res.status(500).json({
+      error: err.message
+    })
+
+  }
+
 })
 
-res.json({
-reply:completion.choices[0].message.content
-})
+const PORT = process.env.PORT || 3000
 
-}catch(err){
-
-res.status(500).json({
-error:err.message
-})
-
-}
-
-})
-
-app.listen(process.env.PORT || 3000,()=>{
-console.log("Server running")
+app.listen(PORT, () => {
+  console.log("Server running on port " + PORT)
 })
