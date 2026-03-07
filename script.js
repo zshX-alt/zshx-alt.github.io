@@ -1,34 +1,29 @@
 async function testAI() {
-    const inputField = document.getElementById('test-input');
-    const resArea = document.getElementById('test-result');
+    const input = document.getElementById('user-input').value;
+    const display = document.getElementById('result');
     
     // URL Pipedream Baru Anda
-    const PIPEDREAM_URL = "https://eooov7kp4yqbi6h.m.pipedream.net"; 
+    const URL = "https://eoycyw34pqnq7sw.m.pipedream.net"; 
 
-    if(!inputField.value) {
-        resArea.innerText = "Ketik kalimatnya dulu, Nyaa! 🐾";
-        return;
-    }
-
-    resArea.innerHTML = "<em>Neko-Sensei sedang berpikir... 🐾</em>";
+    if(!input) return alert("Ketik kalimatnya dulu, Nyaa! 🐾");
+    display.innerHTML = "<em>Neko-Sensei (Groq) sedang beraksi... 🐾</em>";
 
     try {
-        const response = await fetch(PIPEDREAM_URL, {
+        const response = await fetch(URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: inputField.value })
+            body: JSON.stringify({ prompt: input })
         });
         
         const data = await response.json();
         
-        // Membaca format jawaban Gemini: candidates[0].content.parts[0].text
-        if (data.candidates && data.candidates[0].content.parts[0].text) {
-            resArea.innerHTML = data.candidates[0].content.parts[0].text;
+        // Membaca format jawaban Groq
+        if (data.choices && data.choices[0].message) {
+            display.innerText = data.choices[0].message.content;
         } else {
-            resArea.innerText = "Hmm, Gemini tersambung tapi tidak ada jawaban. Cek Pipedream!";
+            display.innerText = "Berhasil kirim, tapi Groq belum merespons. Cek tombol DEPLOY di Pipedream!";
         }
     } catch (e) {
-        console.error(e);
-        resArea.innerText = "Koneksi Gagal! Pastikan Pipedream sudah di-DEPLOY dan Model diatur ke Gemini 1.5 Flash.";
+        display.innerText = "Koneksi Gagal! Pastikan link Pipedream sudah benar dan di-Deploy.";
     }
 }
