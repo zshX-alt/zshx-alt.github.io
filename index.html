@@ -2,237 +2,233 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nihongo Master Pro - Firman</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Engine v10.4 - N4 Master</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="kosakata.js"></script>
-    <script src="bunpo.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
-        body { background-color: #1a1a1a; font-family: 'Plus Jakarta Sans', sans-serif; color: #e5e5e5; }
-        .glass-card { background: #262626; border: 1px solid #404040; }
-        .page { display: none; }
-        .page.active { display: block; }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        
-        /* Flashcard Animation */
-        .perspective { perspective: 1000px; }
-        .card-inner { transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; position: relative; width: 100%; height: 420px; }
-        .is-flipped { transform: rotateY(180deg); }
-        .card-front, .card-back { backface-visibility: hidden; position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; border-radius: 2.5rem; background: #262626; border: 2px solid #404040; }
-        .card-back { transform: rotateY(180deg); border-color: #a3a3a3; }
+        body { background: #0D0D0D; font-family: 'Plus Jakarta Sans', sans-serif; color: #F2F2F2; }
+        .card-dark { background: #171717; border: 1px solid #262626; }
+        .accent-v { color: #FF8C00; } /* Orange untuk Vocab */
+        .accent-g { color: #A855F7; } /* Purple untuk Grammar */
+        .page { display: none; } .page.active { display: flex; }
+        .progress-bg { height: 6px; background: #262626; border-radius: 10px; overflow: hidden; }
+        .fill-v { height: 100%; background: #FF8C00; transition: width 0.8s ease; }
+        .fill-g { height: 100%; background: #A855F7; transition: width 0.8s ease; }
     </style>
 </head>
-<body class="pb-28">
+<body class="h-screen flex flex-col overflow-hidden">
 
-    <div id="pg-dash" class="page active">
-        <header class="p-5 flex items-center justify-between border-b border-[#404040] sticky top-0 bg-[#1a1a1a]/90 backdrop-blur-md z-50">
+    <div id="pg-dash" class="page active flex-col p-6 space-y-8 overflow-y-auto">
+        <header class="flex justify-between items-center mt-2">
             <div class="flex items-center space-x-3">
-                <div class="w-8 h-8 bg-[#404040] rounded-lg flex items-center justify-center font-black italic">N</div>
-                <span class="text-xs font-bold text-[#a3a3a3]">Level N4</span>
+                <div class="w-10 h-10 bg-zinc-900 rounded-xl flex items-center justify-center font-extrabold text-orange-500 border border-zinc-800">N4</div>
+                <div>
+                    <h1 class="text-sm font-bold">Neural Engine</h1>
+                    <p class="text-[10px] opacity-40 uppercase tracking-tighter">Leveling System v10.4</p>
+                </div>
             </div>
-            <div class="flex items-center space-x-4">
-                <div class="flex items-center space-x-1 text-orange-500">
-                    <i class="fas fa-fire text-xs"></i>
-                    <span class="text-[10px] font-black uppercase">12 DAY</span>
-                </div>
-                <div class="text-blue-400 flex items-center space-x-1">
-                    <i class="fas fa-bolt text-[10px]"></i>
-                    <span id="display-xp" class="text-[10px] font-black uppercase">XP 0</span>
-                </div>
+            <div class="flex space-x-4 text-xs font-bold">
+                <span class="accent-v"><i class="fas fa-fire mr-1"></i> 1 DAY</span>
             </div>
         </header>
 
-        <main class="p-6 space-y-8">
-            <section class="space-y-4">
-                <h3 class="text-[10px] font-black text-[#737373] uppercase tracking-widest">Progress JLPT</h3>
-                <div class="space-y-4">
-                    <div>
-                        <div class="flex justify-between text-[10px] font-bold mb-1"><span>Vocabulary</span><span id="vocab-pct">0%</span></div>
-                        <div class="h-1.5 w-full bg-[#404040] rounded-full overflow-hidden"><div id="vocab-bar" class="h-full bg-blue-500 transition-all duration-700" style="width: 0%"></div></div>
+        <section class="space-y-6 pt-4">
+            <h2 class="text-[10px] font-bold uppercase tracking-[0.2em] opacity-30">Learning Progress</h2>
+            <div class="grid grid-cols-1 gap-6">
+                <div>
+                    <div class="flex justify-between text-[11px] mb-2 font-bold uppercase">
+                        <span>Vocabulary</span><span id="stat-v-perc" class="accent-v">0%</span>
                     </div>
-                    <div>
-                        <div class="flex justify-between text-[10px] font-bold mb-1"><span>Grammar</span><span id="gram-pct">0%</span></div>
-                        <div class="h-1.5 w-full bg-[#404040] rounded-full overflow-hidden"><div id="gram-bar" class="h-full bg-emerald-500 transition-all duration-700" style="width: 0%"></div></div>
-                    </div>
+                    <div class="progress-bg"><div id="stat-v-bar" class="fill-v" style="width: 0%"></div></div>
                 </div>
-                <button onclick="startLesson()" class="w-full py-4 bg-[#f5f5f5] text-[#1a1a1a] rounded-2xl text-[10px] font-black tracking-widest shadow-xl active:scale-95 transition">
-                    CONTINUE LEARNING
-                </button>
-            </section>
-
-            <section class="glass-card rounded-[2rem] p-6 space-y-4">
-                <h3 class="text-[10px] font-black text-[#a3a3a3] uppercase tracking-widest">Daily Mission</h3>
-                <div class="space-y-3">
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center space-x-3 text-xs font-bold">
-                            <i id="check-gram" class="far fa-circle text-[#737373]"></i>
-                            <span>10 Grammar</span>
-                        </div>
-                        <span id="count-gram" class="text-[10px] font-black text-[#737373]">0/10</span>
+                <div>
+                    <div class="flex justify-between text-[11px] mb-2 font-bold uppercase">
+                        <span>Grammar</span><span id="stat-g-perc" class="accent-g">0%</span>
                     </div>
-                    <div class="flex justify-between items-center">
-                        <div class="flex items-center space-x-3 text-xs font-bold">
-                            <i id="check-vocab" class="far fa-circle text-[#737373]"></i>
-                            <span>25 Vocabulary</span>
-                        </div>
-                        <span id="count-vocab" class="text-[10px] font-black text-[#737373]">0/25</span>
-                    </div>
-                </div>
-            </section>
-
-            <section class="grid grid-cols-3 gap-3">
-                <button class="glass-card p-4 rounded-2xl flex flex-col items-center space-y-2"><i class="fas fa-feather-alt text-emerald-400"></i><span class="text-[9px] font-bold">GRAMMAR</span></button>
-                <button class="glass-card p-4 rounded-2xl flex flex-col items-center space-y-2"><i class="fas fa-book text-blue-400"></i><span class="text-[9px] font-bold">VOCAB</span></button>
-                <button onclick="startReview()" class="glass-card p-4 rounded-2xl flex flex-col items-center space-y-2"><i class="fas fa-clone text-indigo-400"></i><span class="text-[9px] font-bold">CARDS</span></button>
-            </section>
-
-            <section class="glass-card rounded-[2rem] p-6 border-l-4 border-indigo-500">
-                <h3 class="text-sm font-extrabold mb-1">Review Today</h3>
-                <p id="review-stats" class="text-[10px] text-[#737373] font-bold mb-4 uppercase tracking-tighter">Vocab: 0 • Due Now</p>
-                <button onclick="startReview()" class="w-full py-3 bg-[#404040] text-[#f5f5f5] rounded-xl text-[10px] font-black active:scale-95 transition">START REVIEW</button>
-            </section>
-
-            <section class="space-y-4">
-                <h3 class="text-[10px] font-black text-[#737373] uppercase tracking-widest px-1">Achievements</h3>
-                <div class="flex space-x-4 overflow-x-auto pb-4 no-scrollbar">
-                    <div class="flex-shrink-0 w-24 h-24 glass-card rounded-2xl flex flex-col items-center justify-center p-2">
-                        <i class="fas fa-medal text-amber-500 text-xl mb-2"></i><p class="text-[8px] font-black uppercase text-center">First Lesson</p>
-                    </div>
-                    <div class="flex-shrink-0 w-24 h-24 glass-card rounded-2xl flex flex-col items-center justify-center p-2">
-                        <i class="fas fa-calendar-check text-orange-500 text-xl mb-2"></i><p class="text-[8px] font-black uppercase text-center">7 Day Streak</p>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <div id="pg-learning" class="page p-6 min-h-screen">
-        <header class="flex justify-between items-center mb-10">
-            <button onclick="showPage('pg-dash')"><i class="fas fa-times text-xl text-[#737373]"></i></button>
-            <span id="learning-title" class="text-[10px] font-black uppercase tracking-widest text-indigo-400 tracking-[0.2em]">SESSION</span>
-            <div class="w-6"></div>
-        </header>
-
-        <div class="perspective w-full max-w-sm mx-auto">
-            <div id="flash-card-inner" class="card-inner" onclick="this.classList.toggle('is-flipped')">
-                <div class="card-front">
-                    <h2 id="f-kanji" class="text-7xl font-bold mb-4 text-white"></h2>
-                    <p class="text-[#737373] text-[10px] uppercase tracking-widest animate-pulse">Tap to Reveal</p>
-                </div>
-                <div class="card-back p-8 text-center">
-                    <p id="f-reading" class="text-indigo-400 font-bold text-2xl mb-2 uppercase"></p>
-                    <h2 id="f-meaning" class="text-3xl font-extrabold mb-12"></h2>
-                    <div class="grid grid-cols-2 gap-4 w-full px-4">
-                        <button onclick="handleAnswer('hard', event)" class="py-4 bg-red-500/10 text-red-500 rounded-2xl text-[10px] font-black border border-red-500/20 active:scale-95 transition">HARD</button>
-                        <button onclick="handleAnswer('easy', event)" class="py-4 bg-emerald-500/10 text-emerald-500 rounded-2xl text-[10px] font-black border border-emerald-500/20 active:scale-95 transition">EASY</button>
-                    </div>
+                    <div class="progress-bg"><div id="stat-g-bar" class="fill-g" style="width: 0%"></div></div>
                 </div>
             </div>
+        </section>
+
+        <section class="card-dark p-6 rounded-[2rem] space-y-5 shadow-2xl">
+            <h2 class="text-[10px] font-bold uppercase tracking-[0.2em] opacity-30 text-center">Daily Mission</h2>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between text-sm">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-circle-check accent-v opacity-20"></i>
+                        <span class="font-semibold opacity-80">25 Vocabulary</span>
+                    </div>
+                    <span id="mission-v" class="text-xs font-bold opacity-40">0/25</span>
+                </div>
+                <div class="flex items-center justify-between text-sm">
+                    <div class="flex items-center space-x-3">
+                        <i class="fas fa-circle-check accent-g opacity-20"></i>
+                        <span class="font-semibold opacity-80">10 Grammar</span>
+                    </div>
+                    <span id="mission-g" class="text-xs font-bold opacity-40">0/10</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="grid grid-cols-2 gap-4 pb-10">
+            <button onclick="Engine.mulaiSesi('vocab')" class="bg-white text-black py-6 rounded-[1.5rem] font-black uppercase text-[11px] tracking-tight hover:scale-[1.02] active:scale-95 transition">
+                Start Vocab
+            </button>
+            <button onclick="Engine.mulaiSesi('grammar')" class="bg-zinc-800 text-white py-6 rounded-[1.5rem] font-black uppercase text-[11px] tracking-tight border border-zinc-700 active:scale-95 transition">
+                Start Grammar
+            </button>
         </div>
-        <p id="card-counter" class="mt-8 text-center text-[#737373] text-[10px] font-bold uppercase tracking-widest"></p>
     </div>
 
-    <nav class="fixed bottom-0 left-0 right-0 px-10 py-5 flex justify-between items-center bg-[#1a1a1a] border-t border-[#404040] z-40">
-        <button onclick="showPage('pg-dash')"><i class="fas fa-home text-lg"></i></button>
-        <button onclick="startReview()"><i class="fas fa-clone text-[#737373] text-lg"></i></button>
-        <button onclick="startLesson()" class="w-14 h-14 bg-[#f5f5f5] rounded-full flex items-center justify-center -mt-12 shadow-2xl border-4 border-[#1a1a1a] active:scale-90 transition">
-            <i class="fas fa-bolt text-[#1a1a1a] text-xl"></i>
-        </button>
-        <button><i class="fas fa-headphones text-[#737373] text-lg"></i></button>
-        <button><i class="fas fa-user text-[#737373] text-lg"></i></button>
-    </nav>
+    <div id="pg-sesi" class="page flex-col h-full bg-[#0A0A0A]">
+        <header class="p-6 flex justify-between items-center">
+            <button onclick="location.reload()" class="w-10 h-10 flex items-center justify-center opacity-40 text-xl"><i class="fas fa-chevron-left"></i></button>
+            <span id="session-title" class="text-[10px] font-bold opacity-30 uppercase tracking-[0.3em]">Learning</span>
+            <div class="w-10"></div>
+        </header>
+
+        <main class="flex-1 flex flex-col items-center justify-center p-6 pb-20">
+            <div id="kartu" onclick="Engine.tampilkan()" class="w-full max-w-sm aspect-[3/4] card-dark rounded-[3.5rem] flex flex-col items-center justify-center text-center cursor-pointer p-10 relative transition-all duration-500 active:scale-95">
+                <div id="type-badge" class="absolute top-12 px-5 py-1.5 rounded-full text-[9px] font-black border uppercase tracking-widest">TYPE</div>
+                
+                <h2 id="q-kanji" class="text-6xl font-black mb-8 tracking-tighter text-white"></h2>
+                
+                <p id="tap-hint" class="text-[10px] uppercase tracking-[0.4em] opacity-20 font-bold animate-pulse">Tap to reveal</p>
+                
+                <div id="box-ans" class="hidden space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                    <p id="q-baca" class="text-2xl font-bold italic"></p>
+                    <div class="h-px bg-zinc-800 w-16 mx-auto"></div>
+                    <h3 id="q-arti" class="text-4xl font-black"></h3>
+                </div>
+            </div>
+            <p id="progress-text" class="mt-8 text-[11px] font-bold opacity-20 tracking-widest uppercase italic">Node 1 / 5</p>
+        </main>
+
+        <footer id="btn-eval" class="hidden p-8 grid grid-cols-2 gap-4 pb-14 bg-gradient-to-t from-black to-transparent">
+            <button onclick="Engine.eval(false)" class="py-5 bg-zinc-900/50 rounded-2xl font-bold text-xs uppercase text-red-500 border border-red-950/30">Lupa</button>
+            <button onclick="Engine.eval(true)" class="py-5 bg-white text-black rounded-2xl font-black text-xs uppercase shadow-[0_0_30px_rgba(255,255,255,0.1)]">Ingat</button>
+        </footer>
+    </div>
+
+    <script src="data_n4.js"></script>
 
     <script>
-        let xp = parseInt(localStorage.getItem('firman_xp')) || 0;
-        let dVocab = parseInt(localStorage.getItem('firman_d_vocab')) || 0;
-        let dGram = parseInt(localStorage.getItem('firman_d_gram')) || 0;
-        let queue = [];
-        let qIdx = 0;
+        const Engine = {
+            nodes: (() => {
+                const saved = JSON.parse(localStorage.getItem('neural_v104'));
+                // Merging data eksternal dengan progres lokal
+                return saved ? { ...N4_DATASET, ...saved } : N4_DATASET;
+            })(),
+            queue: [], idx: 0,
 
-        function updateUI() {
-            // Global Progress
-            const mVocab = n4Vocab.filter(v => v.status === 'learned').length;
-            const vPct = Math.floor((mVocab / n4Vocab.length) * 100);
-            document.getElementById('vocab-pct').innerText = vPct + "%";
-            document.getElementById('vocab-bar').style.width = vPct + "%";
+            init() { 
+                this.updateUI(); 
+            },
 
-            const mGram = n4Bunpo.filter(b => b.status === 'learned').length;
-            const gPct = Math.floor((mGram / n4Bunpo.length) * 100);
-            document.getElementById('gram-pct').innerText = gPct + "%";
-            document.getElementById('gram-bar').style.width = gPct + "%";
+            mulaiSesi(type) {
+                const all = Object.values(this.nodes);
+                const limit = (type === 'vocab') ? 25 : 10;
+                
+                // Filter berdasarkan type
+                this.queue = all.filter(n => {
+                    const isCorrectType = (type === 'grammar') ? n.type === 'grammar' : n.type !== 'grammar';
+                    return isCorrectType && n.state === 'new';
+                }).slice(0, limit);
 
-            // XP & Daily Mission
-            document.getElementById('display-xp').innerText = `XP ${xp}`;
-            document.getElementById('count-gram').innerText = `${dGram}/10`;
-            document.getElementById('count-vocab').innerText = `${dVocab}/25`;
+                if(!this.queue.length) return alert(`Misi ${type} baru sudah habis. Silakan review data lama atau tambah data di data_n4.js`);
+                
+                this.idx = 0;
+                document.getElementById('session-title').innerText = `${type} Session`;
+                this.showPage('pg-sesi');
+                this.render();
+            },
 
-            if(dGram >= 10) document.getElementById('check-gram').className = "fas fa-check-circle text-emerald-500";
-            if(dVocab >= 25) document.getElementById('check-vocab').className = "fas fa-check-circle text-emerald-500";
+            render() {
+                const node = this.queue[this.idx];
+                const badge = document.getElementById('type-badge');
+                
+                document.getElementById('q-kanji').innerText = node.kanji;
+                document.getElementById('tap-hint').classList.remove('hidden');
+                document.getElementById('box-ans').classList.add('hidden');
+                document.getElementById('btn-eval').classList.add('hidden');
+                document.getElementById('progress-text').innerText = `${this.idx + 1} / ${this.queue.length}`;
+                
+                // UI Badge Logic
+                const isG = node.type === 'grammar';
+                badge.innerText = isG ? 'Grammar' : 'Vocab';
+                badge.className = isG ? 
+                    "absolute top-12 px-5 py-1.5 rounded-full text-[9px] font-black border-purple-500/50 text-purple-500 border uppercase" : 
+                    "absolute top-12 px-5 py-1.5 rounded-full text-[9px] font-black border-orange-500/50 text-orange-500 border uppercase";
+            },
 
-            // Review Stats
-            const today = new Date().toISOString().split('T')[0];
-            const revs = n4Vocab.filter(v => v.status === 'learned' && v.nextReview <= today).length;
-            document.getElementById('review-stats').innerText = `Vocab: ${revs} • Due Now`;
-        }
+            tampilkan() {
+                const node = this.queue[this.idx];
+                const bacaElem = document.getElementById('q-baca');
+                
+                document.getElementById('tap-hint').classList.add('hidden');
+                document.getElementById('box-ans').classList.remove('hidden');
+                document.getElementById('btn-eval').classList.remove('hidden');
+                
+                bacaElem.innerText = node.baca;
+                bacaElem.className = `text-2xl font-bold italic ${node.type === 'grammar' ? 'accent-g' : 'accent-v'}`;
+                document.getElementById('q-arti').innerText = node.arti;
 
-        function showPage(id) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-        }
+                // Voice TTS
+                window.speechSynthesis.cancel();
+                const msg = new SpeechSynthesisUtterance(node.baca);
+                msg.lang = 'ja-JP';
+                msg.rate = 0.8;
+                window.speechSynthesis.speak(msg);
+            },
 
-        function startLesson() {
-            queue = n4Vocab.filter(v => v.status === 'new').slice(0, 5);
-            if(queue.length === 0) return alert("Materi baru habis!");
-            document.getElementById('learning-title').innerText = "NEW LESSON";
-            qIdx = 0; showPage('pg-learning'); renderFlashcard();
-        }
+            eval(sukses) {
+                const node = this.queue[this.idx];
+                node.state = 'review';
+                node.last = new Date().toISOString();
+                node.s = sukses ? 5 : 1; // Spacing sederhana
+                this.save();
+                
+                if (this.idx < this.queue.length - 1) {
+                    this.idx++;
+                    this.render();
+                } else {
+                    location.reload(); // Selesai sesi, kembali ke dashboard
+                }
+            },
 
-        function startReview() {
-            const today = new Date().toISOString().split('T')[0];
-            queue = n4Vocab.filter(v => v.status === 'learned' && v.nextReview <= today);
-            if(queue.length === 0) return alert("Belum ada jadwal review.");
-            document.getElementById('learning-title').innerText = "DAILY REVIEW";
-            qIdx = 0; showPage('pg-learning'); renderFlashcard();
-        }
+            updateUI() {
+                const all = Object.values(this.nodes);
+                const vocab = all.filter(n => n.type !== 'grammar');
+                const grammar = all.filter(n => n.type === 'grammar');
 
-        function renderFlashcard() {
-            const item = queue[qIdx];
-            document.getElementById('flash-card-inner').classList.remove('is-flipped');
-            document.getElementById('f-kanji').innerText = item.kanji;
-            document.getElementById('f-reading').innerText = item.reading;
-            document.getElementById('f-meaning').innerText = item.meaning;
-            document.getElementById('card-counter').innerText = `${qIdx + 1} / ${queue.length}`;
-        }
+                // Hitung Progress Bar
+                const vM = (vocab.filter(n => n.state === 'review').length / (vocab.length || 1)) * 100;
+                const gM = (grammar.filter(n => n.state === 'review').length / (grammar.length || 1)) * 100;
 
-        function handleAnswer(type, e) {
-            e.stopPropagation();
-            const item = queue[qIdx];
-            
-            xp += (type === 'easy' ? 20 : 10);
-            localStorage.setItem('firman_xp', xp);
+                document.getElementById('stat-v-perc').innerText = Math.round(vM) + "%";
+                document.getElementById('stat-v-bar').style.width = vM + "%";
+                document.getElementById('stat-g-perc').innerText = Math.round(gM) + "%";
+                document.getElementById('stat-g-bar').style.width = gM + "%";
 
-            // Jika sesi review atau lesson baru, tetap tambah hit harian
-            dVocab++;
-            localStorage.setItem('firman_d_vocab', dVocab);
+                // Hitung Misi Harian (Yang dipelajari hari ini)
+                const today = new Date().toLocaleDateString();
+                const doneV = vocab.filter(n => n.last && new Date(n.last).toLocaleDateString() === today).length;
+                const doneG = grammar.filter(n => n.last && new Date(n.last).toLocaleDateString() === today).length;
 
-            const dataIdx = n4Vocab.findIndex(v => v.id === item.id);
-            n4Vocab[dataIdx].status = 'learned';
-            
-            let next = new Date();
-            next.setDate(next.getDate() + (type === 'easy' ? 4 : 1));
-            n4Vocab[dataIdx].nextReview = next.toISOString().split('T')[0];
+                document.getElementById('mission-v').innerText = `${doneV}/25`;
+                document.getElementById('mission-g').innerText = `${doneG}/10`;
+            },
 
-            if(qIdx < queue.length - 1) {
-                qIdx++; renderFlashcard();
-            } else {
-                alert("Sesi Selesai!");
-                showPage('pg-dash'); updateUI();
+            save() { localStorage.setItem('neural_v104', JSON.stringify(this.nodes)); },
+            showPage(id) {
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                document.getElementById(id).classList.add('active');
             }
-        }
+        };
 
-        window.onload = updateUI;
+        window.onload = () => Engine.init();
     </script>
 </body>
 </html>
