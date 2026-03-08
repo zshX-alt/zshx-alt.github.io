@@ -1,191 +1,33 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neural Engine v10.9 - Target 150 Days</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
-        body { background: #080808; font-family: 'Inter', sans-serif; color: #E5E5E5; }
-        .card-main { background: #141414; border: 1px solid #222; border-radius: 24px; }
-        .page { display: none; } .page.active { display: flex; }
-        .bar-v { background: #FF8C00; } .bar-g { background: #A855F7; }
-    </style>
+<meta charset="UTF-8">
+<title>AI Sensei Japanese School</title>
+<link rel="stylesheet" href="style.css">
 </head>
-<body class="h-screen flex flex-col overflow-hidden text-white">
 
-    <div id="pg-dash" class="page active flex-col p-6 space-y-6 overflow-y-auto">
-        <header class="flex justify-between items-center py-4">
-            <div class="flex items-center space-x-3">
-                <div class="w-12 h-12 bg-zinc-900 rounded-2xl flex items-center justify-center border border-zinc-800 shadow-xl">
-                    <span class="text-orange-500 font-black text-xl italic">N4</span>
-                </div>
-                <div>
-                    <h1 class="font-black text-base tracking-tight uppercase">Neural Engine</h1>
-                    <p id="days-left" class="text-[10px] font-bold text-orange-500/60 tracking-widest uppercase">-- DAYS LEFT</p>
-                </div>
-            </div>
-        </header>
+<body>
 
-        <div class="grid grid-cols-2 gap-4">
-            <div class="card-main p-5">
-                <p class="text-[9px] font-black opacity-30 uppercase mb-2">Vocab Mastery</p>
-                <p id="stat-v-perc" class="text-2xl font-black italic">0%</p>
-                <div class="h-1.5 w-full bg-zinc-800 rounded-full mt-2 overflow-hidden">
-                    <div id="stat-v-bar" class="bar-v h-full transition-all duration-700" style="width: 0%"></div>
-                </div>
-            </div>
-            <div class="card-main p-5">
-                <p class="text-[9px] font-black opacity-30 uppercase mb-2">Grammar Mastery</p>
-                <p id="stat-g-perc" class="text-2xl font-black italic">0%</p>
-                <div class="h-1.5 w-full bg-zinc-800 rounded-full mt-2 overflow-hidden">
-                    <div id="stat-g-bar" class="bar-g h-full transition-all duration-700" style="width: 0%"></div>
-                </div>
-            </div>
-        </div>
+<header>
+<h1>AI Sensei Japanese Academy</h1>
+</header>
 
-        <section class="card-main p-6 space-y-4 shadow-2xl">
-            <h2 class="text-center text-[10px] font-black opacity-20 uppercase tracking-[0.3em]">Mission Checkpoint</h2>
-            <div class="flex justify-between items-center"><span class="text-sm font-bold opacity-70">Vocabulary</span><span id="mission-v" class="font-black text-orange-500">0/25</span></div>
-            <div class="flex justify-between items-center"><span class="text-sm font-bold opacity-70">Grammar</span><span id="mission-g" class="font-black text-purple-500">0/10</span></div>
-        </section>
+<nav>
+<button onclick="home()">Home</button>
+<button onclick="openCourse()">Course</button>
+<button onclick="openSensei()">Sensei</button>
+<button onclick="startExam()">Exam</button>
+<button onclick="startStory()">Story</button>
+</nav>
 
-        <div class="grid grid-cols-2 gap-4 pb-12">
-            <button onclick="Engine.mulaiSesi('vocab')" class="bg-white text-black py-6 rounded-3xl font-black uppercase text-xs active:scale-95 transition shadow-lg">Start Vocab</button>
-            <button onclick="Engine.mulaiSesi('grammar')" class="bg-zinc-800 text-white py-6 rounded-3xl font-black uppercase text-xs border border-zinc-700 active:scale-95 transition">Start Grammar</button>
-            <button onclick="Engine.mulaiReview()" class="col-span-2 py-4 bg-zinc-900 text-zinc-500 rounded-2xl text-[9px] font-black uppercase tracking-[0.2em] border border-zinc-800/50">Daily Review (Unlimited)</button>
-        </div>
-    </div>
+<div id="app"></div>
 
-    <div id="pg-sesi" class="page flex-col h-full bg-black">
-        <header class="p-6 flex justify-between">
-            <button onclick="location.reload()" class="text-[10px] font-black opacity-30 uppercase tracking-widest">Exit</button>
-            <div class="w-10"></div>
-        </header>
-        <main class="flex-1 flex flex-col items-center justify-center p-8">
-            <div id="kartu" onclick="Engine.tampilkan()" class="w-full max-w-sm aspect-[4/5] card-main flex flex-col items-center justify-center text-center p-12 relative active:scale-95 transition shadow-2xl">
-                <div id="type-badge" class="absolute top-10 px-5 py-1.5 rounded-full text-[9px] font-black border opacity-40 uppercase italic tracking-widest">TYPE</div>
-                <h2 id="q-kanji" class="text-6xl font-black mb-8 tracking-tighter text-white"></h2>
-                <div id="box-ans" class="hidden space-y-6 animate-in fade-in duration-500">
-                    <p id="q-baca" class="text-xl font-bold italic opacity-60 text-orange-400"></p>
-                    <div class="h-px bg-zinc-800 w-16 mx-auto"></div>
-                    <h3 id="q-arti" class="text-2xl font-bold leading-tight px-2"></h3>
-                </div>
-                <p id="tap-hint" class="absolute bottom-12 text-[8px] font-black opacity-20 uppercase tracking-[0.4em] animate-pulse">Tap To Reveal</p>
-            </div>
-            <p id="progress-text" class="mt-12 text-[10px] font-black opacity-10 uppercase tracking-[0.5em]">0 / 0</p>
-        </main>
-        <footer id="btn-eval" class="hidden p-8 grid grid-cols-2 gap-4 pb-16">
-            <button onclick="Engine.eval(false)" class="py-6 bg-zinc-900 rounded-3xl font-black text-xs uppercase text-red-500 tracking-widest">Lupa</button>
-            <button onclick="Engine.eval(true)" class="py-6 bg-white text-black rounded-3xl font-black text-xs uppercase tracking-widest shadow-xl">Ingat</button>
-        </footer>
-    </div>
+<script src="main.js"></script>
+<script src="engine/courseEngine.js"></script>
+<script src="engine/aiTutor.js"></script>
+<script src="engine/examEngine.js"></script>
+<script src="engine/adaptiveEngine.js"></script>
+<script src="engine/storyEngine.js"></script>
 
-    <script src="data_vocab.js"></script>
-    <script src="data_grammar.js"></script>
-
-    <script>
-        const Engine = {
-            nodes: {}, queue: [], idx: 0,
-
-            init() {
-                // SINKRONISASI DATA
-                const saved = JSON.parse(localStorage.getItem('neural_v109_data'));
-                const base = { ...N4_VOCAB, ...N4_GRAMMAR };
-                
-                // Gunakan data simpanan jika ada, jika tidak pakai data base
-                this.nodes = saved ? { ...base, ...saved } : base;
-
-                if(!localStorage.getItem('target_date')) {
-                    const d = new Date(); d.setDate(d.getDate() + 150);
-                    localStorage.setItem('target_date', d.toISOString());
-                }
-                this.updateUI();
-            },
-
-            updateUI() {
-                const all = Object.values(this.nodes);
-                const v = all.filter(n => n.type === 'vocab');
-                const g = all.filter(n => n.type === 'grammar');
-                
-                const diff = Math.ceil((new Date(localStorage.getItem('target_date')) - new Date()) / 86400000);
-                document.getElementById('days-left').innerText = `${diff} DAYS LEFT`;
-
-                const calc = (arr) => Math.round((arr.filter(n => n.state === 'review').length / (arr.length || 1)) * 100);
-                document.getElementById('stat-v-perc').innerText = calc(v) + "%";
-                document.getElementById('stat-v-bar').style.width = calc(v) + "%";
-                document.getElementById('stat-g-perc').innerText = calc(g) + "%";
-                document.getElementById('stat-g-bar').style.width = calc(g) + "%";
-
-                const today = new Date().toLocaleDateString();
-                const done = (arr) => arr.filter(n => n.last && new Date(n.last).toLocaleDateString() === today).length;
-                document.getElementById('mission-v').innerText = `${done(v)}/25`;
-                document.getElementById('mission-g').innerText = `${done(g)}/10`;
-            },
-
-            mulaiSesi(type) {
-                // Mencari data yang belum dipelajari (state: new)
-                this.queue = Object.values(this.nodes).filter(n => n.type === type && n.state === 'new').slice(0, type === 'vocab' ? 25 : 10);
-                
-                if(this.queue.length === 0) return alert("Belum ada data baru! Tambahkan data di file .js kamu.");
-                
-                this.idx = 0;
-                this.showPage('pg-sesi');
-                this.render();
-            },
-
-            mulaiReview() {
-                const today = new Date().toLocaleDateString();
-                this.queue = Object.values(this.nodes).filter(n => n.last && new Date(n.last).toLocaleDateString() === today);
-                if(this.queue.length === 0) return alert("Kamu belum mempelajari apapun hari ini!");
-                this.idx = 0; this.showPage('pg-sesi'); this.render();
-            },
-
-            render() {
-                const n = this.queue[this.idx];
-                document.getElementById('q-kanji').innerText = n.kanji;
-                document.getElementById('box-ans').classList.add('hidden');
-                document.getElementById('tap-hint').classList.remove('hidden');
-                document.getElementById('btn-eval').classList.add('hidden');
-                document.getElementById('progress-text').innerText = `${this.idx + 1} / ${this.queue.length}`;
-                
-                const b = document.getElementById('type-badge');
-                b.innerText = n.type;
-                b.style.color = n.type === 'grammar' ? '#A855F7' : '#FF8C00';
-                b.style.borderColor = n.type === 'grammar' ? '#A855F7' : '#FF8C00';
-            },
-
-            tampilkan() {
-                const n = this.queue[this.idx];
-                document.getElementById('box-ans').classList.remove('hidden');
-                document.getElementById('tap-hint').classList.add('hidden');
-                document.getElementById('btn-eval').classList.remove('hidden');
-                document.getElementById('q-baca').innerText = n.baca;
-                document.getElementById('q-arti').innerText = n.arti;
-                
-                window.speechSynthesis.cancel();
-                const m = new SpeechSynthesisUtterance(n.baca.split('|')[0]);
-                m.lang = 'ja-JP'; m.rate = 0.8; window.speechSynthesis.speak(m);
-            },
-
-            eval(sukses) {
-                const n = this.queue[this.idx];
-                n.state = 'review';
-                n.last = new Date().toISOString();
-                this.save();
-                if (this.idx < this.queue.length - 1) { this.idx++; this.render(); }
-                else { location.reload(); }
-            },
-
-            save() { localStorage.setItem('neural_v109_data', JSON.stringify(this.nodes)); },
-            showPage(id) {
-                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-                document.getElementById(id).classList.add('active');
-            }
-        };
-        window.onload = () => Engine.init();
-    </script>
 </body>
 </html>
