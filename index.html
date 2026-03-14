@@ -1,35 +1,40 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nihongo Master - 50 Bab</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div id="app-container">
-        <header>
-            <h1>Nihongo Pro</h1>
-            <p class="subtitle">Mastering Minna no Nihongo (50 Bab)</p>
-        </header>
+const urlParams = new URLSearchParams(window.location.search);
+const currentBab = parseInt(urlParams.get('bab')) || 1;
 
-        <div class="chapter-grid" id="menu-container">
-            </div>
-    </div>
+document.getElementById('progress-bar').style.width = `${(currentBab / 50) * 100}%`;
 
-    <script>
-        const container = document.getElementById('menu-container');
-        // Loop buat bikin 50 tombol otomatis
-        for (let i = 1; i <= 50; i++) {
-            const card = document.createElement('a');
-            card.href = `template.html?bab=${i}`;
-            card.className = 'chapter-card';
-            card.innerHTML = `
-                <span class="chapter-number">${i}</span>
-                <span class="chapter-label">第${i}課</span>
-            `;
-            container.appendChild(card);
-        }
-    </script>
-</body>
-</html>
+import(`./data/bab${currentBab}.js`)
+    .then(module => {
+        const data = module.default;
+        renderBab(data);
+        setupNav();
+    })
+    .catch(() => { document.getElementById('bab-title').innerText = "Segera Hadir!"; });
+
+function renderBab(data) {
+    document.title = data.title;
+    document.getElementById('bab-title').innerText = data.title;
+    document.getElementById('bab-desc').innerText = data.description;
+
+    let html = `<h2>Tata Bahasa (文法)</h2>`;
+    data.bunpou.forEach(item => {
+        html += `
+            <div class="card">
+                <h3 style="color:var(--accent); margin:0 0 10px 0;">${item.pola}</h3>
+                <p style="font-size:0.9rem; margin-bottom:15px;">${item.penjelasan}</p>
+                <div class="example-box">
+                    <p style="margin:0; font-size:1.1rem;">${item.jp}</p>
+                    <p style="margin:5px 0 0 0; color:var(--text-dim); font-size:0.85rem;">${item.id}</p>
+                </div>
+            </div>`;
+    });
+    document.getElementById('content').innerHTML = html;
+}
+
+function setupNav() {
+    const nextBtn = document.getElementById('next-btn');
+    const prevBtn = document.getElementById('prev-btn');
+    if (currentBab < 50) nextBtn.onclick = () => window.location.href = `template.html?bab=${currentBab + 1}`;
+    else { nextBtn.innerText = "🎉 Selesai!"; nextBtn.onclick = () => window.location.href = 'index.html'; }
+    if (currentBab > 1) { prevBtn.style.display = "block"; prevBtn.onclick = () => window.location.href = `template.html?bab=${currentBab - 1}`; }
+}
