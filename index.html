@@ -1,40 +1,27 @@
-const urlParams = new URLSearchParams(window.location.search);
-const currentBab = parseInt(urlParams.get('bab')) || 1;
-
-document.getElementById('progress-bar').style.width = `${(currentBab / 50) * 100}%`;
-
-import(`./data/bab${currentBab}.js`)
-    .then(module => {
-        const data = module.default;
-        renderBab(data);
-        setupNav();
-    })
-    .catch(() => { document.getElementById('bab-title').innerText = "Segera Hadir!"; });
-
-function renderBab(data) {
-    document.title = data.title;
-    document.getElementById('bab-title').innerText = data.title;
-    document.getElementById('bab-desc').innerText = data.description;
-
-    let html = `<h2>Tata Bahasa (文法)</h2>`;
-    data.bunpou.forEach(item => {
-        html += `
-            <div class="card">
-                <h3 style="color:var(--accent); margin:0 0 10px 0;">${item.pola}</h3>
-                <p style="font-size:0.9rem; margin-bottom:15px;">${item.penjelasan}</p>
-                <div class="example-box">
-                    <p style="margin:0; font-size:1.1rem;">${item.jp}</p>
-                    <p style="margin:5px 0 0 0; color:var(--text-dim); font-size:0.85rem;">${item.id}</p>
-                </div>
-            </div>`;
-    });
-    document.getElementById('content').innerHTML = html;
-}
-
-function setupNav() {
-    const nextBtn = document.getElementById('next-btn');
-    const prevBtn = document.getElementById('prev-btn');
-    if (currentBab < 50) nextBtn.onclick = () => window.location.href = `template.html?bab=${currentBab + 1}`;
-    else { nextBtn.innerText = "🎉 Selesai!"; nextBtn.onclick = () => window.location.href = 'index.html'; }
-    if (currentBab > 1) { prevBtn.style.display = "block"; prevBtn.onclick = () => window.location.href = `template.html?bab=${currentBab - 1}`; }
-}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading...</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="progress-container" style="width: 100%; height: 4px; background: #161b22; position: fixed; top: 0; left: 0; z-index: 100;">
+        <div id="progress-bar" style="width: 0%; height: 100%; background: var(--accent); transition: 0.3s;"></div>
+    </div>
+    <div id="app-container">
+        <nav style="margin: 10px 0 20px 0;"><a href="index.html" style="color: var(--accent); text-decoration: none; font-weight: bold;">← MENU</a></nav>
+        <header>
+            <h1 id="bab-title">Loading...</h1>
+            <p id="bab-desc" class="subtitle"></p>
+        </header>
+        <main id="content"></main>
+        <footer style="margin: 40px 0; display: flex; gap: 10px;">
+            <button id="prev-btn" class="nav-btn" style="background:var(--card); color:var(--text); border:1px solid var(--border); display:none;">← Prev</button>
+            <button id="next-btn" class="nav-btn" style="flex-grow: 1;">Bab Selanjutnya →</button>
+        </footer>
+    </div>
+    <script type="module" src="app.js"></script>
+</body>
+</html>
