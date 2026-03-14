@@ -1,37 +1,14 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { 
-    background-color: #050505; 
-    color: #e2e8f0; 
-    font-family: 'Inter', sans-serif; 
-    padding: 16px; 
-}
-
+body { background-color: #050505; color: #e2e8f0; font-family: 'Inter', sans-serif; padding: 16px; }
 h1 { text-align: center; color: #6366f1; margin: 20px 0; font-size: 1.5rem; }
-
-.section-header { 
-    color: #818cf8; 
-    font-size: 1.1rem; 
-    margin: 30px 0 10px; 
-    padding-left: 8px;
-    border-left: 4px solid #6366f1;
-}
-
-.materi-card { 
-    background: rgba(30, 41, 59, 0.5); 
-    backdrop-filter: blur(10px);
-    padding: 18px; 
-    border-radius: 16px; 
-    margin-bottom: 12px; 
-    border: 1px solid rgba(255,255,255,0.05);
-}
-
+.section-header { color: #818cf8; font-size: 1.1rem; margin: 30px 0 10px; padding-left: 8px; border-left: 4px solid #6366f1; }
+.materi-card { background: rgba(30, 41, 59, 0.5); backdrop-filter: blur(10px); padding: 18px; border-radius: 16px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.05); }
 .jp-kanji { font-size: 1.25rem; font-weight: bold; color: #fff; margin-bottom: 2px; }
 .jp-kana { color: #818cf8; font-size: 0.85rem; }
 .meaning { font-style: italic; color: #94a3b8; font-size: 0.9rem; margin: 8px 0; }
-.explanation { 
-    background: rgba(0,0,0,0.2); 
-    padding: 10px; 
-    border-radius: 8px; 
-    font-size: 0.85rem; 
-    color: #cbd5e1; 
-}
+.explanation { background: rgba(0,0,0,0.2); padding: 10px; border-radius: 8px; font-size: 0.85rem; color: #cbd5e1; }
+.table-container { overflow-x: auto; margin: 20px 0; }
+table { width: 100%; border-collapse: collapse; background: #1e293b; border-radius: 12px; overflow: hidden; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid #334155; font-size: 0.85rem; }
+th { background: #312e81; color: #a5b4fc; }
+td { color: #f8fafc; }
