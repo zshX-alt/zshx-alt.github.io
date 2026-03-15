@@ -1,51 +1,39 @@
 const bab9 = {
-    title: "第９課 (Bab 9)",
-    description: "Belajar cara bilang suka, pinter dalam sesuatu, dan menyatakan kepemilikan. Waktunya pamer hobi dan skill lo!",
+    title: "第９課 (Bab 9) - Suka & Bisa",
+    description: "Belajar menyatakan kesukaan, kemampuan, dan pemahaman.",
     bunpou: [
         {
-            pola: "1. [Benda] が あります / わかります",
-            penjelasan: "Pake partikel 'Ga' buat menyatakan kepemilikan atau pemahaman. 'Arimasu' (Ada/Punya), 'Wakarimasu' (Paham/Mengerti).",
+            pola: "1. N + ga suki desu (Suka)",
+            jp: "<ruby>私<rt>わたし</rt></ruby> は <ruby>日本料理<rt>にほんりょうり</rt></ruby> が <ruby>好<rt>す</rt></ruby>き です。",
+            ro: "Watashi wa nihon-ryouri ga suki desu.",
+            id: "Saya suka masakan Jepang."
+        },
+        {
+            pola: "2. N + ga dekimasu (Bisa)",
+            jp: "<ruby>私<rt>わたし</rt></ruby> は <ruby>日本語<rt>にほんご</rt></ruby> が <ruby>できます</ruby>。",
+            ro: "Watashi wa nihongo ga dekimasu.",
+            id: "Saya bisa (bahasa) Jepang."
+        },
+        {
+            pola: "3. N + ga wakarimasu (Mengerti)",
+            jp: "<ruby>私<rt>わたし</rt></ruby> は <ruby>漢字<rt>かんじ</rt></ruby> が <ruby>わかります</ruby>。",
+            ro: "Watashi wa kanji ga wakarimasu.",
+            id: "Saya mengerti (huruf) kanji."
+        },
+        {
+            pola: "4. Aru/Imasu (Kepemilikan/Keberadaan)",
             jp: "<ruby>私<rt>わたし</rt></ruby> は <ruby>車<rt>くるま</rt></ruby> が あります。",
             ro: "Watashi wa kuruma ga arimasu.",
             id: "Saya punya mobil."
-        },
-        {
-            pola: "2. [Benda] が 好きです / 嫌いです",
-            penjelasan: "Suka atau benci juga pake partikel 'Ga'. 'Suki' (Suka), 'Kirai' (Benci). Kalau suka banget, tambahin 'Daisuki'.",
-            jp: "<ruby>料理<rt>りょうり</rt></ruby> が <ruby>好<rt>す</rt></ruby>きです。",
-            ro: "Ryouri ga suki desu.",
-            id: "Suka (masak/masakan)."
-        },
-        {
-            pola: "3. [Benda] が 上手です / 下手です",
-            penjelasan: "Buat bilang lo jago atau payah dalam suatu bidang. 'Jouzu' (Jago), 'Heta' (Payah).",
-            jp: "サントスさん は <ruby>絵<rt>え</rt></ruby> が <ruby>上手<rt>じょうず</rt></ruby> です。",
-            ro: "Santosu-san wa e ga jouzu desu.",
-            id: "Sdr. Santos jago menggambar."
-        },
-        {
-            pola: "4. よく / だいたい / たくさん / 少し",
-            penjelasan: "Keterangan tingkat pemahaman atau jumlah. 'Yoku' (Sangat paham), 'Daitai' (Lumayan paham), 'Takusan' (Banyak), 'Sukoshi' (Sedikit).",
-            jp: "<ruby>英語<rt>えいご</rt></ruby> が よく わかります。",
-            ro: "Eigo ga yoku wakarimasu.",
-            id: "Sangat paham bahasa Inggris."
-        },
-        {
-            pola: "5. 全然 / あまり (+ Negatif)",
-            penjelasan: "Kalau ini buat yang kurang atau nggak sama sekali. 'Zenzen' (Sama sekali nggak), 'Amari' (Gak begitu). Wajib ketemu bentuk negatif di belakangnya!",
-            jp: "<ruby>金<rt>かね</rt></ruby> が <ruby>全然<rt>ぜんぜん</rt></ruby> ありません。",
-            ro: "Kane ga zenzen arimasen.",
-            id: "Sama sekali nggak punya duit."
-        },
-        {
-            pola: "6. どうして (Doushite)",
-            penjelasan: "Kata tanya buat 'Kenapa?'. Cara jawabnya harus diakhiri dengan kata 'Kara' yang artinya 'Karena'.",
-            jp: "どうして <ruby>昨日<rt>きのう</rt></ruby> <ruby>休<rt>やす</rt></ruby>みましたか。",
-            ro: "Doushite kinou yasumimashita ka.",
-            id: "Kenapa kemarin libur/absen?"
         }
     ],
-    tips: "Hati-hati Bos! Jangan puji diri sendiri pake kata 'Jouzu' (Jago), karena 'Jouzu' itu khusus buat muji orang lain. Kalau mau bilang lo jago, pake kata lain atau cukup bilang lo suka. Terus, inget kalau nanya 'Doushite', jawabannya wajib diakhiri 'Kara' (～から)!"
+    tips: [
+        "**Partikel 'Ga'**: Inget, buat kata sifat perasaan (suki, kirai) atau kemampuan (jouzu, heta) dan kata kerja (wakarimasu, dekimasu), lo **wajib** pake 'ga'. Jangan pake 'wo' ya, nanti kedengeran aneh!",
+        "**'Arimasu' vs 'Imasu'**: 'Arimasu' buat benda mati, 'Imasu' buat makhluk hidup (manusia/hewan). Jangan sampe ketuker, Bro!",
+        "**Pro Tip**: Kalau mau bilang 'Sangat suka', pake 'Daisuki'. Kalau 'Sangat tidak suka', pake 'Kirai'. Jangan lupa pake 'ga' di depannya.",
+        "**Waspada**: 'Wakarimasu' itu artinya 'mengerti/paham'. Kalau lo mau bilang 'Saya tahu', itu beda lagi ceritanya. Tapi buat awal-awal, 'wakarimasu' udah cukup banget.",
+        "**Kunci Survival**: Hafalin kata sifat berpasangan: Jozu (pandai) vs Heta (payah), Suki (suka) vs Kirai (benci). Ini bakal sering keluar pas lagi ngobrol."
+    ]
 };
 
 export default bab9;
