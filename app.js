@@ -1,3 +1,5 @@
+import { kanjiMaster } from './data/kanjiData.js'; 
+
 const params = new URLSearchParams(window.location.search);
 const babId = parseInt(params.get('bab')) || 1;
 
@@ -24,7 +26,7 @@ async function loadData() {
             </div>
         `).join('');
 
-        // Render Tips Pro (Fitur baru buat Firman)
+        // Render Tips Pro
         if (data.tips && data.tips.length > 0) {
             const tipsHtml = `
                 <div class="card" style="border-left: 4px solid #f1c40f;">
@@ -35,6 +37,16 @@ async function loadData() {
                 </div>
             `;
             content.innerHTML += tipsHtml;
+        }
+
+        // --- TOMBOL LIHAT KANJI (Fitur Baru) ---
+        // Cek dulu apakah ada Kanji buat bab ini di kanjiMaster
+        if (kanjiMaster[`bab${babId}`]) {
+            const kanjiBtn = document.createElement('button');
+            kanjiBtn.innerText = "Lihat Daftar Kanji Bab Ini 📖";
+            kanjiBtn.style.cssText = "background: #3498db; color: #fff; border: none; padding: 18px; border-radius: 14px; width: 100%; margin-top: 20px; font-weight: 800; cursor: pointer; transition: 0.2s;";
+            kanjiBtn.onclick = () => window.location.href = `kanji_view.html?bab=${babId}`;
+            content.appendChild(kanjiBtn);
         }
 
         // Progress Tracking
