@@ -1,12 +1,10 @@
-import { kanjiMaster } from './data/kanjiData.js'; 
-
 const params = new URLSearchParams(window.location.search);
 const babId = parseInt(params.get('bab')) || 1;
 
 async function loadData() {
     try {
-        // Dynamic Import Bab berdasarkan URL
-        const module = await import(`./data/bab${babId}.js`);
+        // Dynamic Import Bab - Menggunakan slash depan agar root-based (lebih aman di GitHub)
+        const module = await import(`/data/bab${babId}.js`);
         const data = module.default;
         
         // Update Title & Description
@@ -39,16 +37,6 @@ async function loadData() {
             content.innerHTML += tipsHtml;
         }
 
-        // --- TOMBOL LIHAT KANJI (Fitur Baru) ---
-        // Cek dulu apakah ada Kanji buat bab ini di kanjiMaster
-        if (kanjiMaster[`bab${babId}`]) {
-            const kanjiBtn = document.createElement('button');
-            kanjiBtn.innerText = "Lihat Daftar Kanji Bab Ini 📖";
-            kanjiBtn.style.cssText = "background: #3498db; color: #fff; border: none; padding: 18px; border-radius: 14px; width: 100%; margin-top: 20px; font-weight: 800; cursor: pointer; transition: 0.2s;";
-            kanjiBtn.onclick = () => window.location.href = `kanji_view.html?bab=${babId}`;
-            content.appendChild(kanjiBtn);
-        }
-
         // Progress Tracking
         localStorage.setItem(`bab-${babId}-done`, 'true');
 
@@ -64,7 +52,7 @@ async function loadData() {
         document.getElementById('title').innerText = "Data Belum Tersedia";
         document.getElementById('content').innerHTML = `
             <div class="card">
-                <p>Bab ${babId} masih dalam proses penyusunan nih, Firman. Sabar ya!</p>
+                <p>Bab ${babId} belum siap atau path file salah. Cek konsol!</p>
             </div>`;
         console.error("Gagal load bab:", error);
     }
