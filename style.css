@@ -1,63 +1,147 @@
+/* --- NIHONGO PRO - GLOBAL STYLE --- */
 :root {
-    --bg: #0a0a0a;
-    --card-bg: #161616;
-    --text-main: #ffffff;
-    --text-gray: #b0b0b0;
-    --text-dim: #555555;
-    --border: #222222;
-    --gold: #f1c40f;
-    --success: #2ecc71;
+    --bg: #0a0a0a;           /* Hitam pekat modern */
+    --card-bg: #161616;      /* Abu-abu gelap kartu */
+    --text-main: #ffffff;    /* Putih bersih */
+    --text-gray: #b0b0b0;    /* Abu-abu aksen */
+    --text-dim: #555555;     /* Abu-abu redup */
+    --border: #222222;       /* Garis batas halus */
+    --gold: #f1c40f;         /* Warna emas (Tips/Bab 52) */
+    --success: #2ecc71;      /* Hijau (Arti Bahasa) */
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
     background-color: var(--bg);
     color: var(--text-main);
-    font-family: 'Inter', sans-serif;
-    margin: 0; padding: 20px;
-    display: flex; flex-direction: column; align-items: center;
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    margin: 0;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1.5;
 }
 
-/* Header & Nav */
-header { text-align: center; margin-bottom: 30px; }
-header h1 { font-size: 2rem; color: var(--text-gray); margin: 0; }
-header p { color: var(--text-dim); font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase; }
+/* --- HEADER --- */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    width: 100%;
+}
 
-/* Grid Dashboard */
+header h1 {
+    font-size: 2rem;
+    color: var(--text-gray);
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+header p {
+    color: var(--text-dim);
+    font-size: 0.75rem;
+    margin-top: 8px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+/* --- DASHBOARD GRID (index.html) --- */
 #bab-list {
-    display: grid; grid-template-columns: repeat(4, 1fr);
-    gap: 12px; width: 100%; max-width: 500px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    width: 100%;
+    max-width: 500px;
 }
+
 .bab-card {
-    background: var(--card-bg); border: 1px solid var(--border);
-    border-radius: 12px; padding: 15px 5px; text-align: center;
-    text-decoration: none; transition: 0.2s;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 18px 5px;
+    text-align: center;
+    text-decoration: none;
+    transition: 0.2s ease;
 }
+
+.bab-card:active { transform: scale(0.9); background: #1f1f1f; }
+
 .bab-card.special { border-color: var(--gold); }
-.bab-card .number { font-size: 1.4rem; font-weight: 800; color: var(--text-gray); display: block; }
-.bab-card .label { font-size: 0.6rem; color: var(--text-dim); }
+.bab-card.special .number { color: var(--gold); }
 
-/* Tabel Kanji Mode (Bab 52+) */
+.bab-card .number { font-size: 1.5rem; font-weight: 800; color: var(--text-gray); }
+.bab-card .label { font-size: 0.6rem; color: var(--text-dim); display: block; margin-top: 4px; }
+
+/* --- MATERI CARD (template.html) --- */
+.container { width: 100%; max-width: 600px; }
+
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.pola-title {
+    font-weight: bold;
+    color: var(--gold);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: block;
+}
+
+.jp { font-size: 1.5rem; font-weight: 600; margin: 0; }
+.ro { color: var(--text-gray); font-style: italic; font-size: 0.9rem; margin: 6px 0; }
+.id { color: var(--success); font-weight: 500; font-size: 1.1rem; margin: 0; }
+
+/* --- TABEL KANJI (Format TikTok) --- */
 .vocab-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 10px; width: 100%; max-width: 600px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    width: 100%;
 }
+
 .vocab-item {
-    background: var(--card-bg); border: 1px solid var(--border);
-    border-radius: 8px; padding: 10px 5px;
-    display: flex; flex-direction: column; align-items: center;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
 .vocab-hira { font-size: 0.75rem; color: var(--text-gray); margin-bottom: 2px; }
-.vocab-kanji { font-size: 1.6rem; font-weight: bold; color: #fff; line-height: 1.2; }
-.vocab-indo { font-size: 0.65rem; color: var(--success); margin-top: 5px; font-weight: bold; }
+.vocab-kanji { font-size: 1.7rem; font-weight: bold; color: #fff; line-height: 1.1; }
+.vocab-indo { font-size: 0.65rem; color: var(--success); margin-top: 6px; font-weight: bold; text-transform: uppercase; }
 
-/* Materi Card Mode (Bab 1-51) */
-.card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 15px; margin-bottom: 12px; width: 100%; }
-.pola-title { color: var(--gold); font-size: 0.8rem; font-weight: bold; text-transform: uppercase; }
-.jp { font-size: 1.3rem; margin: 8px 0; }
-.id { color: var(--success); }
-
+/* --- TOMBOL NAVIGASI --- */
 .nav-btn {
-    width: 100%; max-width: 600px; padding: 15px; border: none;
-    border-radius: 12px; background: var(--text-gray); color: var(--bg);
-    font-weight: bold; cursor: pointer; margin-top: 20px;
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 16px;
+    background: #e0e0e0; /* Putih/Abu terang biar kontras */
+    color: #000;
+    font-weight: 800;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.nav-btn:active { background: #b0b0b0; }
+
+/* --- RESPONSIVE --- */
+@media (min-width: 600px) {
+    #bab-list { grid-template-columns: repeat(5, 1fr); gap: 16px; }
 }
