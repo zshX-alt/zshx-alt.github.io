@@ -7,39 +7,24 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <header>
         <h1>Nihongo Pro</h1>
         <p>Minna no Nihongo (1 - 51)</p>
     </header>
 
-    <div id="bab-list">
-        </div>
+    <div id="bab-list"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('bab-list');
-            
-            // Loop bikin 51 Card
             for (let i = 1; i <= 51; i++) {
                 const card = document.createElement('a');
                 card.href = `template.html?bab=${i}`;
-                card.className = 'bab-card';
-                
-                // Kasih tanda spesial buat Bab 51 (Factory Class)
-                if (i === 51) {
-                    card.classList.add('special');
-                }
-                
-                card.innerHTML = `
-                    <span class="number">${i}</span>
-                    <span class="label">第${i}課</span>
-                `;
-                
+                card.className = i === 51 ? 'bab-card special' : 'bab-card';
+                card.innerHTML = `<span class="number">${i}</span><span class="label">第${i}課</span>`;
                 container.appendChild(card);
             }
         });
     </script>
-
 </body>
 </html>
