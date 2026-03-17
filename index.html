@@ -4,146 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Nihongo Pro - Dashboard</title>
-    <style>
-        /* --- CONFIGURATION & COLORS --- */
-        :root {
-            --bg: #0a0a0a;           /* Hitam pekat modern */
-            --card-bg: #161616;      /* Abu-abu gelap kartu */
-            --text-main: #ffffff;    /* Putih bersih */
-            --text-gray: #b0b0b0;    /* Abu-abu aksen */
-            --text-dim: #555555;     /* Abu-abu redup */
-            --border: #222222;       /* Garis batas halus */
-            --gold: #f1c40f;         /* Warna emas spesial */
-        }
-
-        * {
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            font-family: 'Inter', -apple-system, system-ui, sans-serif;
-            margin: 0;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* --- HEADER SECTION --- */
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            margin-top: 20px;
-        }
-
-        header h1 {
-            font-size: 2.2rem;
-            color: var(--text-gray);
-            margin: 0;
-            letter-spacing: -1.5px;
-            font-weight: 800;
-        }
-
-        header p {
-            color: var(--text-dim);
-            font-size: 0.8rem;
-            margin-top: 8px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        /* --- GRID CONTAINER --- */
-        #bab-list {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            width: 100%;
-            max-width: 500px;
-            padding-bottom: 60px;
-        }
-
-        /* --- CARD STYLE --- */
-        .bab-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 20px 5px;
-            text-align: center;
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .bab-card:active {
-            transform: scale(0.9);
-            background: #1f1f1f;
-            border-color: var(--text-gray);
-        }
-
-        .bab-card .number {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: var(--text-gray);
-            line-height: 1;
-        }
-
-        .bab-card .label {
-            font-size: 0.6rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            margin-top: 6px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        /* --- SPESIAL BAB 51 --- */
-        .bab-card.special {
-            border-color: var(--gold);
-            box-shadow: 0 0 12px rgba(241, 196, 15, 0.15);
-        }
-        
-        .bab-card.special .number {
-            color: var(--gold);
-        }
-
-        /* Responsive Desktop */
-        @media (min-width: 600px) {
-            #bab-list {
-                grid-template-columns: repeat(5, 1fr);
-                gap: 16px;
-            }
-            header h1 { font-size: 2.8rem; }
-            body { padding: 40px; }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
         <h1>Nihongo Pro</h1>
-        <p>Minna no Nihongo (1 - 50) + Ekstra</p>
+        <p>Minna no Nihongo (1 - 51)</p>
     </header>
 
-    <div id="bab-list"></div>
+    <div id="bab-list">
+        </div>
 
     <script>
-        /* --- AUTOMATIC GENERATOR --- */
         document.addEventListener('DOMContentLoaded', () => {
             const container = document.getElementById('bab-list');
             
-            // Loop bikin 51 Card (Udah di-update!)
+            // Loop bikin 51 Card
             for (let i = 1; i <= 51; i++) {
                 const card = document.createElement('a');
                 card.href = `template.html?bab=${i}`;
                 card.className = 'bab-card';
                 
-                // Kasih class 'special' buat Bab 51
+                // Kasih tanda spesial buat Bab 51 (Factory Class)
                 if (i === 51) {
                     card.classList.add('special');
                 }
