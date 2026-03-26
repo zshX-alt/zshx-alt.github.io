@@ -17,8 +17,8 @@ const bab1 = {
         {
             pola: "3. ~wa ~desu ka (Kalimat tanya)",
             jp: "あなたは <ruby>佐藤<rt>さとう</rt></ruby>さん です か。",
-            ro: "Anata wa Satou-san desu ka.",
-            id: "Apakah Anda Saudara Satou?"
+            ro: "Anata wa ipan ka.",
+            id: "Apakah Anda Saudara ipan?"
         },
         {
             pola: "4. N1 mo desu (Juga)",
